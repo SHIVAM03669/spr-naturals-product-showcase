@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Leaf, Heart, ShieldCheck, Droplet, Star, Check, Minus, Plus, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getCatalogProductById } from "@/lib/utils";
 
 const productsData = {
   "herbal-face-cream": {
@@ -119,7 +120,28 @@ const productsData = {
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const product = productsData[productId as keyof typeof productsData];
+  const legacy = productsData[productId as keyof typeof productsData];
+  const catalog = getCatalogProductById(productId);
+  const product = legacy || (catalog
+    ? {
+        id: catalog.id,
+        name: catalog.name,
+        category: catalog.categoryName,
+        price: undefined as unknown as number | undefined,
+        rating: 5.0,
+        reviews: 0,
+        description: catalog.description,
+        image: catalog.image,
+        ingredients: ["Sustainably sourced materials"],
+        benefits: ["Eco-friendly", "Compostable or recyclable", "Food-safe where applicable"],
+        features: [
+          { icon: <Leaf className="w-5 h-5" />, text: "Sustainable" },
+          { icon: <ShieldCheck className="w-5 h-5" />, text: "Quality Assured" },
+          { icon: <Droplet className="w-5 h-5" />, text: "Safe for Use" },
+        ],
+        volume: undefined as unknown as string | undefined,
+      }
+    : undefined);
   const [quantity, setQuantity] = useState(1);
 
   if (!product) {
@@ -205,46 +227,56 @@ export default function ProductDetailPage() {
                     />
                   ))}
                 </div>
-                <span className="text-muted-foreground">
-                  {product.rating} ({product.reviews} reviews)
-                </span>
+                {typeof product.reviews === 'number' ? (
+                  <span className="text-muted-foreground">
+                    {product.rating} ({product.reviews} reviews)
+                  </span>
+                ) : null}
               </div>
 
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 {product.description}
               </p>
 
-              <div className="flex items-baseline gap-4 mb-8">
-                <span className="text-5xl font-bold text-nature-green">
-                  ${product.price}
-                </span>
-                <span className="text-muted-foreground">• {product.volume}</span>
-              </div>
+              {(typeof product.price === 'number' || product.volume) ? (
+                <div className="flex items-baseline gap-4 mb-8">
+                  {typeof product.price === 'number' ? (
+                    <span className="text-5xl font-bold text-nature-green">
+                      ${product.price}
+                    </span>
+                  ) : null}
+                  {product.volume ? (
+                    <span className="text-muted-foreground">• {product.volume}</span>
+                  ) : null}
+                </div>
+              ) : null}
 
               {/* Quantity Selector */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-foreground mb-3">Quantity</label>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-sage-green/30 rounded-lg">
-                    <button
-                      onClick={() => handleQuantityChange('decrease')}
-                      className="p-3 hover:bg-sage-green/10 transition-colors"
-                    >
-                      <Minus className="w-4 h-4 text-nature-green" />
-                    </button>
-                    <span className="px-6 py-3 text-lg font-semibold">{quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange('increase')}
-                      className="p-3 hover:bg-sage-green/10 transition-colors"
-                    >
-                      <Plus className="w-4 h-4 text-nature-green" />
-                    </button>
+              {typeof product.price === 'number' ? (
+                <div className="mb-8">
+                  <label className="block text-sm font-medium text-foreground mb-3">Quantity</label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center border border-sage-green/30 rounded-lg">
+                      <button
+                        onClick={() => handleQuantityChange('decrease')}
+                        className="p-3 hover:bg-sage-green/10 transition-colors"
+                      >
+                        <Minus className="w-4 h-4 text-nature-green" />
+                      </button>
+                      <span className="px-6 py-3 text-lg font-semibold">{quantity}</span>
+                      <button
+                        onClick={() => handleQuantityChange('increase')}
+                        className="p-3 hover:bg-sage-green/10 transition-colors"
+                      >
+                        <Plus className="w-4 h-4 text-nature-green" />
+                      </button>
+                    </div>
+                    <span className="text-muted-foreground">
+                      Total: ${(product.price * quantity).toFixed(2)}
+                    </span>
                   </div>
-                  <span className="text-muted-foreground">
-                    Total: ${(product.price * quantity).toFixed(2)}
-                  </span>
                 </div>
-              </div>
+              ) : null}
 
               {/* Action Buttons */}
               <div className="flex gap-4 mb-8">
@@ -257,50 +289,56 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Features Grid */}
-              <div className="grid grid-cols-2 gap-4 mb-8 p-6 bg-cream rounded-xl">
-                {product.features.map((feature, index) => (
+              {Array.isArray(product.features) && product.features.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4 mb-8 p-6 bg-cream rounded-xl">
+                  {product.features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <div className="p-2 bg-nature-green/10 rounded-lg text-nature-green">
                       {feature.icon}
                     </div>
                     <span className="text-sm font-medium">{feature.text}</span>
                   </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
 
           {/* Additional Information Tabs */}
           <div className="grid md:grid-cols-2 gap-8">
             {/* Ingredients */}
-            <Card className="p-8 border-sage-green/20 bg-white">
-              <h3 className="text-2xl font-bold mb-6 text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Key Ingredients
-              </h3>
-              <div className="space-y-3">
-                {product.ingredients.map((ingredient, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-leaf-green" />
-                    <span className="text-muted-foreground">{ingredient}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
+            {Array.isArray(product.ingredients) && product.ingredients.length > 0 ? (
+              <Card className="p-8 border-sage-green/20 bg-white">
+                <h3 className="text-2xl font-bold mb-6 text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Key Ingredients
+                </h3>
+                <div className="space-y-3">
+                  {product.ingredients.map((ingredient, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-leaf-green" />
+                      <span className="text-muted-foreground">{ingredient}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ) : null}
 
             {/* Benefits */}
-            <Card className="p-8 border-sage-green/20 bg-white">
-              <h3 className="text-2xl font-bold mb-6 text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Benefits
-              </h3>
-              <div className="space-y-3">
-                {product.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-leaf-green mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
+            {Array.isArray(product.benefits) && product.benefits.length > 0 ? (
+              <Card className="p-8 border-sage-green/20 bg-white">
+                <h3 className="text-2xl font-bold mb-6 text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Benefits
+                </h3>
+                <div className="space-y-3">
+                  {product.benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-leaf-green mt-0.5 flex-shrink-0" />
+                      <span className="text-muted-foreground">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ) : null}
           </div>
 
           {/* How to Use Section */}
