@@ -187,14 +187,15 @@ export default function HomePage() {
               Welcome to SPR Naturals
             </ScrollFloat>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              At SPR Naturals, we believe in the transformative power of nature. Our mission is to provide you with 
-              100% natural, eco-friendly, and sustainable wellness and personal care products that nurture both your 
-              body and the environment.
+              We are a merchant exporter from Nagpur, India, supplying sustainable food‑service and packaging
+              products worldwide. Our focus is eco‑friendly alternatives that reduce plastic waste while delivering
+              reliable performance for restaurants, caterers, airlines and retailers.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              From herbal skincare and organic haircare to natural oils and eco-friendly lifestyle products, 
-              every item is crafted with care, using only the finest botanical ingredients. We're committed to 
-              being chemical-free, cruelty-free, and eco-sustainable in everything we do.
+              Our catalog includes Areca leaf tableware, sugarcane bagasse plates and trays, paper cups and straws,
+              kraft paper bags, meal boxes, aluminium foil containers, and wooden cutlery. We offer consistent
+              quality, export‑grade packaging, documentation support, and on‑time shipments — with options for
+              private‑label branding on request.
             </p>
           </div>
         </div>
