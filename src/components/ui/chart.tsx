@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent";
 import { cn } from "@/lib/utils";
 import { useChart, ChartConfig } from "@/components/ui/chart-context";
 
@@ -55,17 +54,15 @@ function ChartTooltipContent({
 
   if (!active || !payload?.length) return null;
 
-  const tooltipLabel = React.useMemo(() => {
+  const renderTooltipLabel = () => {
     if (hideLabel || !payload?.length) return null;
-
     const [item] = payload;
     const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value =
       !labelKey && typeof label === "string"
-        ? config[label as keyof typeof config]?.label || label
+        ? (config[label as keyof typeof config]?.label as string) || label
         : itemConfig?.label;
-
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
@@ -73,11 +70,9 @@ function ChartTooltipContent({
         </div>
       );
     }
-
     if (!value) return null;
-
     return <div className={cn("font-medium", labelClassName)}>{value}</div>;
-  }, [label, labelFormatter, payload, hideLabel, labelClassName, config, labelKey]);
+  };
 
   const nestLabel = payload.length === 1 && indicator !== "dot";
 
@@ -88,7 +83,7 @@ function ChartTooltipContent({
         className
       )}
     >
-      {!nestLabel ? tooltipLabel : null}
+      {!nestLabel ? renderTooltipLabel() : null}
       <div className="grid gap-1.5">
         {payload.map((item, index) => {
           const key = `${nameKey || item.name || item.dataKey || "value"}`;
@@ -138,7 +133,7 @@ function ChartTooltipContent({
                     )}
                   >
                     <div className="grid gap-1.5">
-                      {nestLabel ? tooltipLabel : null}
+                      {nestLabel ? renderTooltipLabel() : null}
                       <span className="text-muted-foreground">
                         {itemConfig?.label || item.name}
                       </span>

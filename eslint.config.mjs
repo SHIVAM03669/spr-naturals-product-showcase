@@ -14,11 +14,13 @@ const eslintConfig = [
     rules: {
       'react/no-unescaped-entities': 'off',
       '@next/next/no-img-element': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+      // Disable TS-specific rules that require the typescript-eslint plugin in flat config
+      // (Not loaded in this project to keep build light on Netlify)
+      // If needed later, install @typescript-eslint/eslint-plugin and enable.
       'react-hooks/exhaustive-deps': 'off',
       'import/no-unresolved': 'error',
-      'import/named': 'error',
+      // Turn off import/named to avoid false positives in type-only imports
+      'import/named': 'off',
       'import/default': 'error',
       'import/namespace': 'error',
       'import/no-absolute-path': 'error',
