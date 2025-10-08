@@ -1,7 +1,37 @@
-import { TooltipProps, LegendProps } from "recharts";
+import * as React from "react";
 import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent";
 import { cn } from "@/lib/utils";
-import { useChart, ChartConfig } from "./chart-context"; // adjust import if needed
+import { useChart, ChartConfig } from "@/components/ui/chart-context";
+
+type LocalTooltipProps = {
+  active?: boolean;
+  payload?: Array<any>;
+  className?: string;
+  indicator?: "line" | "dot" | "dashed";
+  hideLabel?: boolean;
+  hideIndicator?: boolean;
+  label?: any;
+  labelFormatter?: (value: any, payload?: any[]) => React.ReactNode;
+  labelClassName?: string;
+  formatter?: (
+    value: any,
+    name: any,
+    item: any,
+    index: number,
+    raw: any
+  ) => React.ReactNode;
+  color?: string;
+  nameKey?: string;
+  labelKey?: string;
+};
+
+type LocalLegendProps = {
+  className?: string;
+  hideIcon?: boolean;
+  payload?: Array<any>;
+  verticalAlign?: "top" | "bottom";
+  nameKey?: string;
+};
 
 // -----------------------------
 // ChartTooltipContent
@@ -20,13 +50,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: TooltipProps<ValueType, NameType> & {
-  hideLabel?: boolean;
-  hideIndicator?: boolean;
-  indicator?: "line" | "dot" | "dashed";
-  nameKey?: string;
-  labelKey?: string;
-}) {
+}: LocalTooltipProps) {
   const { config } = useChart();
 
   if (!active || !payload?.length) return null;
@@ -144,7 +168,7 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}: LegendProps & { className?: string; hideIcon?: boolean; nameKey?: string }) {
+}: LocalLegendProps) {
   const { config } = useChart();
 
   if (!payload?.length) return null;
@@ -184,6 +208,16 @@ function ChartLegendContent({
       })}
     </div>
   );
+}
+
+// Helper to resolve payload item to ChartConfig entry
+function getPayloadConfigFromPayload(
+  config: ChartConfig,
+  item: any,
+  key: string
+) {
+  const dataKey = String(item?.dataKey ?? key);
+  return config[dataKey as keyof ChartConfig];
 }
 
 export { ChartTooltipContent, ChartLegendContent };
