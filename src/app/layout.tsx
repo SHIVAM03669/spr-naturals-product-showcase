@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
-import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 
@@ -24,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <SmoothScrollProvider>
-          <ErrorReporter />
+          
           <Script
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
             strategy="afterInteractive"
