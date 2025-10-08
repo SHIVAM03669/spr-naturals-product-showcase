@@ -14,6 +14,7 @@ export default function ErrorReporter({ error, reset }: ReporterProps) {
   // Use a cross-platform timer type that works in both Node and the browser
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+
   useEffect(() => {
     const inIframe = window.parent !== window;
     if (!inIframe) return;
