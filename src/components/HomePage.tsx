@@ -51,21 +51,21 @@ export default function HomePage() {
 
   const testimonials = [
     {
-      name: "Sarah Mitchell",
-      role: "Verified Customer",
-      content: "SPR Naturals has completely transformed my skincare routine. My skin has never felt healthier!",
+      name: "Marcus Thompson",
+      role: "Restaurant Owner, London",
+      content: "SPR Naturals' areca leaf plates have been a game-changer for our eco-friendly restaurant. Our customers love the natural look and we feel good about reducing plastic waste.",
       rating: 5
     },
     {
-      name: "Emily Chen",
-      role: "Verified Customer",
-      content: "I love knowing exactly what I'm putting on my skin. These products are pure, effective, and sustainable.",
+      name: "Priya Sharma",
+      role: "Catering Manager, Mumbai",
+      content: "The sugarcane bagasse containers are perfect for our outdoor events. They're sturdy, compostable, and handle hot food beautifully. Excellent quality and service!",
       rating: 5
     },
     {
-      name: "Jessica Brown",
-      role: "Verified Customer",
-      content: "The hair oil is incredible! My hair is shinier and healthier than ever. Highly recommend!",
+      name: "David Chen",
+      role: "Retail Chain Owner, Singapore",
+      content: "We've been sourcing from SPR Naturals for over 2 years. Their paper cups and straws are consistently high quality, and their export documentation is always perfect.",
       rating: 5
     }
   ];
