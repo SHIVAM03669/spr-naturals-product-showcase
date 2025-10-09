@@ -145,7 +145,7 @@ export default function HomePage() {
                 <div className="relative aspect-[16/11]">
                   <video
                     className="absolute inset-0 w-full h-full object-cover"
-                    src="/bgvideo.mp4"
+                    src="/video.mp4"
                     autoPlay
                     loop
                     muted
