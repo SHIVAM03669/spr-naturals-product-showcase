@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+  import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
 const CHATBOT_PROMPT = `Act like a chatbot for SPR Naturals - Premium Natural Products from India to the World
@@ -17,7 +17,7 @@ With all features like:
 - WhatsApp integration for direct communication
 
 Contact for help:
-- Email: hello@sprnaturals.com
+- Email: info@sprnaturals.in
 - WhatsApp: +917447755042
 - Location: Nagpur, India
 - Business Hours: Mon–Sat, 9AM – 6PM IST
@@ -34,7 +34,7 @@ Avoid answering questions like:
 - Medical or health advice beyond product safety
 
 Give this response if you can't answer the query:
-Sorry, I can't help you with this. For specialized inquiries about SPR Naturals products, please contact us directly at hello@sprnaturals.com or WhatsApp +917447755042. Our team will be happy to assist you with your specific needs.`;
+Sorry, I can't help you with this. For specialized inquiries about SPR Naturals products, please contact us directly at info@sprnaturals.in or WhatsApp +917447755042. Our team will be happy to assist you with your specific needs.`;
 
 export async function POST(request: NextRequest) {
   try {
@@ -68,7 +68,7 @@ Please respond as the SPR Naturals chatbot, being helpful, professional, and sta
       return NextResponse.json(
         { 
           error: 'No response generated from AI',
-          response: "Sorry, I couldn't generate a response. Please try again or contact us directly at hello@sprnaturals.com"
+          response: "Sorry, I couldn't generate a response. Please try again or contact us directly at info@sprnaturals.in"
         }, 
         { status: 500 }
       );
@@ -84,7 +84,7 @@ Please respond as the SPR Naturals chatbot, being helpful, professional, and sta
     return NextResponse.json(
       { 
         error: 'Failed to process your message. Please try again later.',
-        response: "Sorry, I'm having trouble processing your request right now. For immediate assistance, please contact us at hello@sprnaturals.com or WhatsApp +917447755042."
+        response: "Sorry, I'm having trouble processing your request right now. For immediate assistance, please contact us at info@sprnaturals.in or WhatsApp +917447755042."
       }, 
       { status: 500 }
     );

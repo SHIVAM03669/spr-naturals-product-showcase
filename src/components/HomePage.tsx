@@ -10,10 +10,23 @@ import { getAllCategoriesWithCounts, getProductsByCategoryId } from "@/lib/utils
 import ScrollFloat from "@/components/ui/ScrollFloat";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Chatbot from "@/components/Chatbot";
+import CountrySelector from "@/components/CountrySelector";
+import { Country } from "@/lib/countries";
+import { sendContactEmail, validateContactForm, ContactFormData } from "@/lib/emailjs";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [formData, setFormData] = useState({
+    company_name: '',
+    user_name: '',
+    user_email: '',
+    user_phone: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
 
   useEffect(() => {
     setIsVisible(true);
@@ -25,6 +38,66 @@ export default function HomePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    // Prepare form data with selected country
+    const contactData: ContactFormData = {
+      ...formData,
+      user_country: selectedCountry?.name || ''
+    };
+
+    // Validate form
+    const validation = validateContactForm(contactData);
+    if (!validation.isValid) {
+      setSubmitStatus({
+        type: 'error',
+        message: validation.errors.join(', ')
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const result = await sendContactEmail(contactData);
+      setSubmitStatus({
+        type: result.success ? 'success' : 'error',
+        message: result.message
+      });
+
+      // Reset form on success
+      if (result.success) {
+        setFormData({
+          company_name: '',
+          user_name: '',
+          user_email: '',
+          user_phone: '',
+          message: ''
+        });
+        setSelectedCountry(null);
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'An unexpected error occurred. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // products grid removed per request; homepage now focuses on categories
 
@@ -99,7 +172,10 @@ export default function HomePage() {
       </nav>
   
       {/* Hero Section - Natural Layout with background image */}
-      <section className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bgimage.png)' }}>
+      <section className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bgimage.jpeg)' }}>
+        {/* Background Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+        
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-32 h-32 bg-leaf-green/10 rounded-full blur-3xl"></div>
@@ -351,34 +427,114 @@ export default function HomePage() {
             </div>
             <div className="grid md:grid-cols-2 gap-8 items-stretch">
               <Card className="p-8 bg-white border-sage-green/20 h-full">
-                <form className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Name</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
-                      placeholder="Your name"
-                    />
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-foreground mb-2">Company Name</label>
+                      <input
+                        type="text"
+                        name="company_name"
+                        value={formData.company_name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
+                        placeholder="Your company name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Your Name <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        name="user_name"
+                        value={formData.user_name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
+                        placeholder="Your name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Email <span className="text-red-500">*</span></label>
+                      <input
+                        type="email"
+                        name="user_email"
+                        value={formData.user_email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
+                        placeholder="your.email@example.com"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Phone Number <span className="text-red-500">*</span></label>
+                      <input
+                        type="tel"
+                        name="user_phone"
+                        value={formData.user_phone}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
+                        placeholder="+91 1234567890"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Country <span className="text-red-500">*</span></label>
+                      <CountrySelector
+                        value={selectedCountry?.code}
+                        onChange={setSelectedCountry}
+                        placeholder="Select Country"
+                        required
+                      />
+                    </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green"
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Message</label>
+                    <label className="block text-sm font-medium text-foreground mb-2">Message <span className="text-red-500">*</span></label>
                     <textarea
-                      rows={5}
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={4}
                       className="w-full px-4 py-3 border border-sage-green/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-nature-green resize-none"
                       placeholder="Tell us how we can help..."
+                      required
                     />
                   </div>
-                  <Button className="w-full bg-nature-green hover:bg-leaf-green text-white py-6 text-lg">
-                    <Send className="w-5 h-5 mr-2" />
-                    Send Message
+                  
+                  {/* Status Messages */}
+                  {submitStatus.type && (
+                    <div className={`p-4 rounded-lg ${
+                      submitStatus.type === 'success' 
+                        ? 'bg-green-50 border border-green-200 text-green-800' 
+                        : 'bg-red-50 border border-red-200 text-red-800'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        {submitStatus.type === 'success' ? (
+                          <Check className="w-5 h-5 text-green-600" />
+                        ) : (
+                          <div className="w-5 h-5 rounded-full bg-red-600 flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">!</span>
+                          </div>
+                        )}
+                        <span className="text-sm font-medium">{submitStatus.message}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <Button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-nature-green hover:bg-leaf-green text-white py-6 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-5 h-5 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </Card>
@@ -466,7 +622,7 @@ export default function HomePage() {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-white/80">
-                <li>Email: hello@sprnaturals.com</li>
+                <li>Email: <a href="mailto:info@sprnaturals.in" className="hover:text-white hover:underline transition-colors">info@sprnaturals.in</a></li>
                 <li>Location: Nagpur, India</li>
                 <li>Hours: Mon–Sat, 9AM – 6PM IST</li>
               </ul>
