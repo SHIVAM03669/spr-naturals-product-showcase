@@ -64,6 +64,16 @@ Please respond as the SPR Naturals chatbot, being helpful, professional, and sta
 
     const fullResponse = response.text;
 
+    if (!fullResponse) {
+      return NextResponse.json(
+        { 
+          error: 'No response generated from AI',
+          response: "Sorry, I couldn't generate a response. Please try again or contact us directly at hello@sprnaturals.com"
+        }, 
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({ 
       response: fullResponse.trim(),
       timestamp: new Date().toISOString()
