@@ -422,7 +422,7 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="/products" className="hover:text-white transition-colors">Categories</a></li>
+                <li><Link href="/products" className="hover:text-white transition-colors">Categories</Link></li>
                 <li><a href="#benefits" className="hover:text-white transition-colors">Why Us</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
@@ -430,10 +430,10 @@ export default function HomePage() {
             <div>
               <h4 className="font-semibold mb-4">Products</h4>
               <ul className="space-y-2 text-sm text-white/80">
-                <li><a href="/products/category/natural-tableware" className="hover:text-white transition-colors">Natural Tableware</a></li>
-                <li><a href="/products/category/sugarcane-fiber-tableware" className="hover:text-white transition-colors">Sugarcane Fiber Tableware</a></li>
-                <li><a href="/products/category/paper-drinkware" className="hover:text-white transition-colors">Paper Drinkware</a></li>
-                <li><a href="/products/category/paper-packaging" className="hover:text-white transition-colors">Paper Packaging</a></li>
+                <li><Link href="/products/category/natural-tableware" className="hover:text-white transition-colors">Natural Tableware</Link></li>
+                <li><Link href="/products/category/sugarcane-fiber-tableware" className="hover:text-white transition-colors">Sugarcane Fiber Tableware</Link></li>
+                <li><Link href="/products/category/paper-drinkware" className="hover:text-white transition-colors">Paper Drinkware</Link></li>
+                <li><Link href="/products/category/paper-packaging" className="hover:text-white transition-colors">Paper Packaging</Link></li>
               </ul>
             </div>
             <div>
