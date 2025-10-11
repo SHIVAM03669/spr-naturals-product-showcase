@@ -97,77 +97,66 @@ export default function HomePage() {
           </div>
         </div>
       </nav>
+  
+      {/* Hero Section - Natural Layout with background image */}
+      <section className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bgimage.png)' }}>
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-leaf-green/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-nature-green/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-sage-green/10 rounded-full blur-2xl"></div>
+        </div>
 
-      {/* Hero Section - left text, right image with badge */}
-      <section className="relative pt-24 pb-16">
-        <div className="container mx-auto px-6">
-          <div className={`grid md:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {/* Left */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-sage-green/20 rounded-full mb-6">
-                <Sparkles className="w-4 h-4 text-nature-green" />
-                <span className="text-sm font-medium text-nature-green">ISO Certified • Quality Guaranteed</span>
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Premium Natural
-                <br /> Products from <span className="text-gradient-nature">India</span>
-                <br /> to the World
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl">
-                Your trusted merchant exporter from Nagpur, delivering quality agricultural products and eco-friendly goods to global markets.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/products">
-                  <Button size="lg" className="bg-nature-green hover:bg-leaf-green text-white px-8 py-6">Explore Products</Button>
-                </Link>
-                <a href="#contact">
-                  <Button size="lg" variant="outline" className="border-nature-green text-nature-green hover:bg-sage-green/10 px-8 py-6">Get in Touch</Button>
-                </a>
-              </div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Badge - using existing text */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full mb-8 shadow-lg border border-sage-green/20">
+              <Sparkles className="w-4 h-4 text-nature-green" />
+              <span className="text-sm font-medium text-nature-green">ISO Certified • Quality Guaranteed</span>
+            </div>
 
-              <div className="grid grid-cols-3 gap-6 mt-10 text-nature-green">
-                <div>
-                  <div className="text-3xl font-bold">15+</div>
-                  <div className="text-sm text-muted-foreground">Years Experience</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold">15+</div>
-                  <div className="text-sm text-muted-foreground">Countries</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold">100+</div>
-                  <div className="text-sm text-muted-foreground">Happy Clients</div>
-                </div>
+            {/* Main Heading - using existing text */}
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-nature-green leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Premium Natural
+              <br /> Products from <span className="text-gradient-nature">India</span>
+              <br /> to the World
+            </h1>
+
+            {/* Subheading - using existing text */}
+            <p className="text-xl md:text-2xl text-white mb-12 max-w-3xl mx-auto leading-relaxed">
+              Your trusted merchant exporter from Nagpur, delivering quality agricultural products and eco-friendly goods to global markets.
+            </p>
+
+            {/* CTA Buttons - using existing buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+              <Link href="/products">
+                <Button size="lg" className="bg-nature-green hover:bg-leaf-green text-white px-10 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                  Explore Products
+                </Button>
+              </Link>
+              <a href="#contact">
+                <Button size="lg" variant="outline" className="border-2 border-nature-green text-nature-green hover:bg-nature-green hover:text-white px-10 py-4 text-lg font-semibold rounded-lg transition-all duration-300">
+                  Get in Touch
+                </Button>
+              </a>
+            </div>
+
+            {/* Stats - using existing stats */}
+            <div className="grid grid-cols-3 gap-8 mb-16 text-nature-green max-w-md mx-auto">
+              <div>
+                <div className="text-3xl font-bold">15+</div>
+                <div className="text-sm text-white">Years Experience</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">15+</div>
+                <div className="text-sm text-white">Countries</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">100+</div>
+                <div className="text-sm text-white">Happy Clients</div>
               </div>
             </div>
 
-            {/* Right */}
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                <div className="relative aspect-[16/11]">
-                  <video
-                    className="absolute inset-0 w-full h-full object-cover"
-                    src="/video.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    aria-label="Background hero video"
-                  />
-                </div>
-              </div>
-              <div className="absolute left-6 -bottom-6">
-                <Card className="px-6 py-4 shadow-lg bg-white border-sage-green/30">
-                  <div className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-nature-green" />
-                    <div>
-                      <div className="font-semibold text-foreground">ISO Certified</div>
-                      <div className="text-xs text-muted-foreground">Quality Guaranteed</div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </div>  
           </div>
         </div>
       </section>
