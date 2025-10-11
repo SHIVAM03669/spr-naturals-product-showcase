@@ -9,6 +9,7 @@ import Image from "next/image";
 import { getAllCategoriesWithCounts, getProductsByCategoryId } from "@/lib/utils";
 import ScrollFloat from "@/components/ui/ScrollFloat";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import Chatbot from "@/components/Chatbot";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -493,6 +494,9 @@ export default function HomePage() {
         phoneNumber="+917447755042"
         message="Hello! I'm interested in SPR Naturals products. Could you please provide more information about your eco-friendly tableware and packaging solutions?"
       />
+
+      {/* Chatbot */}
+      <Chatbot />
     </div>
   );
 }
