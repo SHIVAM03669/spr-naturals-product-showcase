@@ -121,15 +121,19 @@ export default function GoogleTranslate() {
     // Helper function to fire events
     function fireEvent(a: HTMLElement, b: string) {
       try {
-        if (document.createEvent) {
+        // Use modern event creation method
+        const c = new Event(b, { bubbles: true, cancelable: true });
+        a.dispatchEvent(c);
+      } catch (e) {
+        // Fallback for older browsers
+        try {
           const c = document.createEvent('HTMLEvents');
           c.initEvent(b, true, true);
           a.dispatchEvent(c);
-        } else {
-          const c = document.createEventObject();
-          a.fireEvent('on' + b, c);
+        } catch (fallbackError) {
+          console.warn('Could not fire event:', fallbackError);
         }
-      } catch (e) {}
+      }
     }
 
     return () => {
