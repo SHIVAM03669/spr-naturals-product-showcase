@@ -10,7 +10,7 @@ declare global {
       };
     };
     googleTranslateElementInit2: () => void;
-    doGTranslate: (selectElement: HTMLSelectElement) => void;
+    doGTranslate: (selectElement: HTMLSelectElement | string) => void;
   }
 }
 
@@ -95,7 +95,14 @@ export default function GoogleTranslate() {
         
         if (!combo) {
           // If combo not found, try again after a short delay
-          setTimeout(() => { window.doGTranslate(value); }, 500);
+          setTimeout(() => { 
+            const retryCombo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+            if (retryCombo) {
+              retryCombo.value = targetLang;
+              const event = new Event('change', { bubbles: true });
+              retryCombo.dispatchEvent(event);
+            }
+          }, 500);
           return;
         }
         
