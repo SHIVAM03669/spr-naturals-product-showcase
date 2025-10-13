@@ -214,3 +214,123 @@
 nextjs-portal {
   display: none !important;
 }
+
+/* Hide Google Translate banner */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe[title="Google Translate Element"] {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    top: -1000px !important;
+    left: -1000px !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+}
+
+body {
+    top: 0 !important;  /* Reset body top offset added by Google */
+}
+
+body.goog-te-banner-frame {
+    top: 0 !important;
+}
+
+/* Additional hiding for any Google Translate elements */
+div[id="google_translate_element"],
+div[id*="google_translate"] {
+    display: none !important;
+}
+
+/* Hide the skip translate link */
+a.skiptranslate {
+    display: none !important;
+}
+
+/* Prevent translation of the language dropdown */
+.translate-selector,
+.translate-selector *,
+select[class*="translate"],
+select[class*="lang"] {
+    -webkit-translate: no !important;
+    -moz-translate: no !important;
+    -ms-translate: no !important;
+    -o-translate: no !important;
+    translate: no !important;
+}
+
+/* Ensure language dropdown options are not translated */
+.translate-selector option,
+select[class*="translate"] option,
+select[class*="lang"] option {
+    -webkit-translate: no !important;
+    -moz-translate: no !important;
+    -ms-translate: no !important;
+    -o-translate: no !important;
+    translate: no !important;
+}
+
+.goog-te-menu-value:hover {
+  text-decoration: none !important;
+}
+
+.goog-te-menu2 {
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.goog-te-menu2-item {
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+}
+
+.goog-te-menu2-item:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.goog-te-menu2-item-selected {
+  background-color: var(--color-nature-green) !important;
+  color: white !important;
+}
+
+.goog-te-combo {
+  background-color: white !important;
+  border: 1px solid var(--color-sage-green) !important;
+  border-radius: 6px !important;
+  padding: 4px 8px !important;
+  font-size: 14px !important;
+}
+
+/* Custom translate selector styles */
+.translate-selector {
+  background-color: white;
+  border: 1px solid var(--color-sage-green);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.translate-selector:hover {
+  border-color: var(--color-nature-green);
+  box-shadow: 0 0 0 2px rgba(var(--color-nature-green), 0.1);
+}
+
+.translate-selector:focus {
+  outline: none;
+  border-color: var(--color-nature-green);
+  box-shadow: 0 0 0 2px rgba(var(--color-nature-green), 0.2);
+}

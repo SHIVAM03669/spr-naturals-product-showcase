@@ -11,6 +11,7 @@ import ScrollFloat from "@/components/ui/ScrollFloat";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Chatbot from "@/components/Chatbot";
 import CountrySelector from "@/components/CountrySelector";
+import GoogleTranslate from "@/components/GoogleTranslate";
 import { Country } from "@/lib/countries";
 import { sendContactEmail, validateContactForm, ContactFormData } from "@/lib/emailjs";
 
@@ -164,9 +165,9 @@ export default function HomePage() {
               <a href="#testimonials" className="text-foreground hover:text-nature-green transition-colors">Testimonials</a>
               <a href="#contact" className="text-foreground hover:text-nature-green transition-colors">Contact</a>
             </div>
-            <Button asChild className="bg-nature-green hover:bg-leaf-green text-white">
-              <a href="/catalog.pdf" download aria-label="Download catalog PDF">Catalogue</a>
-            </Button>
+            <div className="flex items-center gap-4">
+              <GoogleTranslate />
+            </div>
           </div>
         </div>
       </nav>
@@ -628,6 +629,15 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
+          {/* Catalogue Button */}
+          <div className="mb-6">
+            <Button asChild className="w-full bg-white text-nature-green hover:bg-cream text-lg py-4 font-semibold">
+              <a href="/catalog.pdf" download aria-label="Download catalog PDF">
+                📄 Download Catalogue
+              </a>
+            </Button>
+          </div>
+          
           <div className="border-t border-white/20 pt-8 text-center text-sm text-white/80">
             <p>&copy; {new Date().getFullYear()} SPR Naturals. All rights reserved.</p>
           </div>
