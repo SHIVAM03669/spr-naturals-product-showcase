@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Leaf, Heart, Droplet, ShieldCheck, Sparkles, Send, Check } from "lucide-react";
@@ -16,8 +16,6 @@ import { Country } from "@/lib/countries";
 import { sendContactEmail, validateContactForm, ContactFormData } from "@/lib/emailjs";
 
 export default function HomePage() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [formData, setFormData] = useState({
@@ -29,17 +27,6 @@ export default function HomePage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
-
-  useEffect(() => {
-    setIsVisible(true);
-    
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
 
   // Handle form input changes
