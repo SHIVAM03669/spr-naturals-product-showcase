@@ -5,11 +5,13 @@
     "engines": {
         "node": "^18 || ^20 || ^22.11"
     },
+    "framework": "nextjs",
     "scripts": {
-        "dev": "next dev --turbopack",
+        "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "export": "next export"
     },
     "dependencies": {
         "@babel/parser": "^7.28.4",
