@@ -19,6 +19,7 @@ export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const [formData, setFormData] = useState({
     company_name: '',
     user_name: '',
@@ -39,6 +40,7 @@ export default function HomePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -149,21 +151,26 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-sage-green/20 transition-all duration-300">
+
+  
+      {/* Hero Section - Natural Layout with background video */}
+      <section className="relative min-h-screen flex items-center justify-center">
+        <nav className="absolute top-0 left-0 w-full bg-transparent backdrop-blur-sm transition-all duration-300 z-50">
+
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
-              <span className="text-2xl font-bold text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#about" className="text-foreground hover:text-nature-green transition-colors">About</a>
-              <a href="#products" className="text-foreground hover:text-nature-green transition-colors">Products</a>
-              <a href="#benefits" className="text-foreground hover:text-nature-green transition-colors">Benefits</a>
-              <a href="#testimonials" className="text-foreground hover:text-nature-green transition-colors">Testimonials</a>
-              <a href="#contact" className="text-foreground hover:text-nature-green transition-colors">Contact</a>
+              <a href="#about" className="text-white hover:text-nature-green transition-colors">About</a>
+              <a href="#products" className="text-white hover:text-nature-green transition-colors">Products</a>
+              <a href="#benefits" className="text-white hover:text-nature-green transition-colors">Benefits</a>
+              <a href="#testimonials" className="text-white hover:text-nature-green transition-colors">Testimonials</a>
+              <a href="#contact" className="text-white hover:text-nature-green transition-colors">Contact</a>
             </div>
             <div className="flex items-center gap-4">
               <GoogleTranslate />
@@ -171,9 +178,36 @@ export default function HomePage() {
           </div>
         </div>
       </nav>
-  
-      {/* Hero Section - Natural Layout with background image */}
-      <section className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bgimage.jpeg)' }}>
+        {/* Background Video */}
+        <div className="absolute inset-0 overflow-hidden bg-black">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="w-full h-full object-contain sm:object-cover"
+            style={{ zIndex: -1 }}
+            onLoadedData={() => setVideoLoaded(true)}
+            onError={() => setVideoLoaded(false)}
+            onCanPlay={() => setVideoLoaded(true)}
+          >
+            <source src="/bg_video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        
+        {/* Fallback background image - shown if video fails */}
+        {!videoLoaded && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: 'url(/bgimage.jpeg)',
+              zIndex: -2
+            }}
+          ></div>
+        )}
+        
         {/* Background Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
         
@@ -184,58 +218,6 @@ export default function HomePage() {
           <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-sage-green/10 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Badge - using existing text */}
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full mb-8 shadow-lg border border-sage-green/20">
-              <Sparkles className="w-4 h-4 text-nature-green" />
-              <span className="text-sm font-medium text-nature-green">ISO Certified • Quality Guaranteed</span>
-            </div>
-
-            {/* Main Heading - using existing text */}
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-nature-green leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Premium Natural
-              <br /> Products from <span className="text-gradient-nature">India</span>
-              <br /> to the World
-            </h1>
-
-            {/* Subheading - using existing text */}
-            <p className="text-xl md:text-2xl text-white mb-12 max-w-3xl mx-auto leading-relaxed">
-              Your trusted merchant exporter from Nagpur, delivering quality agricultural products and eco-friendly goods to global markets.
-            </p>
-
-            {/* CTA Buttons - using existing buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-              <Link href="/products">
-                <Button size="lg" className="bg-nature-green hover:bg-leaf-green text-white px-10 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-                  Explore Products
-                </Button>
-              </Link>
-              <a href="#contact">
-                <Button size="lg" variant="outline" className="border-2 border-nature-green text-nature-green hover:bg-nature-green hover:text-white px-10 py-4 text-lg font-semibold rounded-lg transition-all duration-300">
-                  Get in Touch
-                </Button>
-              </a>
-            </div>
-
-            {/* Stats - using existing stats */}
-            <div className="grid grid-cols-3 gap-8 mb-16 text-nature-green max-w-md mx-auto">
-              <div>
-                <div className="text-3xl font-bold">15+</div>
-                <div className="text-sm text-white">Years Experience</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">15+</div>
-                <div className="text-sm text-white">Countries</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">100+</div>
-                <div className="text-sm text-white">Happy Clients</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
       </section>
 
       {/* About Section */}
@@ -630,8 +612,8 @@ export default function HomePage() {
             </div>
           </div>
           {/* Catalogue Button */}
-          <div className="mb-6">
-            <Button asChild className="w-full bg-white text-nature-green hover:bg-cream text-lg py-4 font-semibold">
+1          <div className="mb-6 flex justify-center">
+            <Button asChild size="sm" className="bg-white text-nature-green hover:bg-cream text-sm py-2 px-4 font-medium">
               <a href="/catalog.pdf" download aria-label="Download catalog PDF">
                 📄 Download Catalogue
               </a>

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send, X, Bot, User, Loader2 } from "lucide-react";
+import { MessageCircle, Send, X, Bot, User, Loader2, Bot as RobotIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -117,13 +117,19 @@ export default function Chatbot({ className }: ChatbotProps) {
     <div className={cn("fixed bottom-24 right-6 z-50", className)}>
       {/* Chat Widget */}
       {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full bg-nature-green hover:bg-leaf-green text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
-          aria-label="Open chat"
-        >
-          <MessageCircle className="w-6 h-6" />
-        </Button>
+        <div className="relative">
+          {/* Wave animation ring */}
+          <div className="absolute inset-0 rounded-full border-2 border-nature-green/30 chatbot-wave"></div>
+          <div className="absolute inset-0 rounded-full border border-nature-green/20 animate-pulse"></div>
+          
+          <Button
+            onClick={() => setIsOpen(true)}
+            className="relative w-14 h-14 rounded-full bg-nature-green hover:bg-leaf-green text-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-10"
+            aria-label="Open chat"
+          >
+            <RobotIcon className="w-6 h-6" />
+          </Button>
+        </div>
       )}
 
       {/* Chat Window */}
@@ -141,7 +147,7 @@ export default function Chatbot({ className }: ChatbotProps) {
           <div className="flex items-center justify-between p-3 border-b border-sage-green/20 bg-nature-green/5">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-nature-green rounded-full flex items-center justify-center">
-                <Bot className="w-3 h-3 text-white" />
+                <RobotIcon className="w-3 h-3 text-white" />
               </div>
               <div>
                 <h3 className="font-semibold text-sm text-foreground">SPR Naturals</h3>
@@ -205,7 +211,7 @@ export default function Chatbot({ className }: ChatbotProps) {
               >
                 {message.sender === 'bot' && (
                   <div className="w-6 h-6 bg-nature-green/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-3 h-3 text-nature-green" />
+                    <RobotIcon className="w-3 h-3 text-nature-green" />
                   </div>
                 )}
                 <div
@@ -235,7 +241,7 @@ export default function Chatbot({ className }: ChatbotProps) {
             {isLoading && (
               <div className="flex gap-2 justify-start">
                 <div className="w-6 h-6 bg-nature-green/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-3 h-3 text-nature-green" />
+                  <RobotIcon className="w-3 h-3 text-nature-green" />
                 </div>
                 <div className="bg-sage-green/10 rounded-lg px-3 py-2 text-sm">
                   <div className="flex items-center gap-2">

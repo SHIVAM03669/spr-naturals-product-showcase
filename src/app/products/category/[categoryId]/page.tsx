@@ -74,7 +74,17 @@ export default function CategoryDetailPage() {
                 <Link key={product.id} href={`/products/${product.id}`}>
                   <Card className="overflow-hidden hover-lift cursor-pointer border-sage-green/20 bg-white h-full flex flex-col">
                     <div className="relative h-56 bg-cream">
-                      <Image src={product.image} alt={product.name} fill className="object-cover" />
+                      <Image 
+                        src={product.image} 
+                        alt={product.name} 
+                        fill 
+                        className="object-cover"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={75}
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      />
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
                       <div className="text-xs font-medium text-sage-green mb-2 uppercase tracking-wider">{product.categoryName}</div>

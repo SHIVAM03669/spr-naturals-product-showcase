@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   outputFileTracingRoot: path.resolve(__dirname, '../../'),
   turbopack: {
@@ -23,6 +27,10 @@ const nextConfig: NextConfig = {
         loaders: [LOADER]
       }
     }
+  },
+  experimental: {
+    optimizeCss: true,
+    scrollRestoration: true,
   }
 };
 
