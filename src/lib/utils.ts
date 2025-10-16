@@ -68,6 +68,15 @@ export const catalogProducts: CatalogProduct[] = [
     description: 'Compostable, single-use bowls made from areca palm leaves. Perfect for soups, salads, and desserts.',
     image: '/ntbowls.png',
   },
+
+  {
+    id: 'areca-tray',
+    name: 'Areca Tray',
+    categoryId: 'natural-tableware',
+    categoryName: 'Natural Tableware',
+    description: 'Beautiful serving trays made from areca palm leaves. Perfect for appetizers and elegant presentations.',
+    image: '/nttray.png',
+  },
   
   // Sugarcane Fiber Tableware - Bagasse Products
   {
@@ -100,6 +109,14 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'sugarcane-fiber-tableware',
     categoryName: 'Sugarcane Fiber Tableware',
     description: 'Sturdy serving trays made from sugarcane fiber (bagasse). Great for appetizers and finger foods.',
+    image: '/sttray.png',
+  },
+  {
+    id: 'bagasse-compartment',
+    name: 'Bagasse Compartment',
+    categoryId: 'sugarcane-fiber-tableware',
+    categoryName: 'Sugarcane Fiber Tableware',
+    description: 'Multi-compartment containers made from sugarcane fiber (bagasse). Perfect for meal prep and food separation.',
     image: '/stt.png',
   },
   
@@ -223,6 +240,14 @@ export const catalogProducts: CatalogProduct[] = [
     categoryName: 'Food Packaging',
     description: 'Heat-safe aluminium foil containers for large meals and batch cooking.',
     image: '/acl.png',
+  },
+  {
+    id: 'silver-foil-roll',
+    name: 'Silver Foil Roll',
+    categoryId: 'food-packaging',
+    categoryName: 'Food Packaging',
+    description: 'High-quality silver foil rolls for food wrapping, baking, and packaging applications.',
+    image: '/fpfoil.png',
   },
   
   // Eco-Friendly Cutlery - Wooden Cutlery
