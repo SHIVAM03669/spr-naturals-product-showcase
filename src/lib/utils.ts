@@ -25,7 +25,7 @@ export type CatalogCategory = {
 
 export const catalogCategories: CatalogCategory[] = [
   { id: 'natural-tableware', name: 'Natural Tableware', blurb: 'Areca leaf plates and bowls: sturdy, compostable, elegant.', image: '/nt.png' },
-  { id: 'sugarcane-fiber-tableware', name: 'Sugarcane Fiber Tableware', blurb: 'Bagasse plates and trays from sugarcane fiber.', image: '/st.jpeg' },
+  { id: 'sugarcane-fiber-tableware', name: 'Bagasse Basics', blurb: 'Bagasse plates and trays from sugarcane fiber.', image: '/st.jpeg' },
   { id: 'paper-drinkware', name: 'Paper Drinkware', blurb: 'Paper cups and straws for eco-friendly sipping.', image: '/pd.jpeg' },
   { id: 'paper-packaging', name: 'Paper Packaging', blurb: 'Durable kraft paper bags for carry and retail.', image: '/pp.png' },
   { id: 'food-packaging', name: 'Food Packaging', blurb: 'Secure, food-safe boxes and containers.', image: '/fp.png' },

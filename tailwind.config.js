@@ -25,7 +25,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      boxShadow: {
+        'nature-green': '0 0 20px rgba(45, 90, 39, 0.3)',
+        'leaf-green': '0 0 20px rgba(74, 124, 89, 0.3)',
+        'white': '0 0 20px rgba(255, 255, 255, 0.3)',
+      },
     },
   },
   plugins: [],
 }
+

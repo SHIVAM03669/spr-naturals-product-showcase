@@ -14,11 +14,13 @@ import CountrySelector from "@/components/CountrySelector";
 import GoogleTranslate from "@/components/GoogleTranslate";
 import { Country } from "@/lib/countries";
 import { sendContactEmail, validateContactForm, ContactFormData } from "@/lib/emailjs";
+import DotSpinner from "@/components/DotSpinner";
 
 export default function HomePage() {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [mobileVideoLoaded, setMobileVideoLoaded] = useState(false);
   const [desktopVideoLoaded, setDesktopVideoLoaded] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [formData, setFormData] = useState({
     company_name: '',
     user_name: '',
@@ -48,6 +50,30 @@ export default function HomePage() {
         });
       }
     }
+  }, []);
+
+  // Handle video loading state
+  useEffect(() => {
+    const isMobile = window.innerWidth < 640;
+    const hasVideoLoaded = isMobile ? mobileVideoLoaded : desktopVideoLoaded;
+    
+    if (hasVideoLoaded) {
+      // Add a small delay to ensure smooth transition
+      const timer = setTimeout(() => {
+        setIsVideoLoading(false);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [mobileVideoLoaded, desktopVideoLoaded]);
+
+  // Fallback: Hide loading after 5 seconds if videos fail to load
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => {
+      setIsVideoLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   // Handle form input changes
@@ -186,6 +212,17 @@ export default function HomePage() {
           </div>
         </div>
       </nav>
+        {/* Video Loading Overlay */}
+        {isVideoLoading && (
+          <div className="absolute inset-0 bg-gradient-to-br from-nature-green to-leaf-green flex items-center justify-center z-10">
+            <div className="text-center flex flex-col items-center justify-center">
+              <DotSpinner size="lg" color="white" className="mb-6" />
+              <p className="text-white text-lg font-medium">Loading Experience...</p>
+              <p className="text-white/80 text-sm mt-2">Preparing your journey with SPR Naturals</p>
+            </div>
+          </div>
+        )}
+
         {/* Background Video */}
         <div className="absolute inset-0 overflow-hidden bg-black">
           {/* Mobile Video */}
@@ -197,7 +234,7 @@ export default function HomePage() {
             playsInline
             preload="auto"
             webkit-playsinline="true"
-            className="w-full h-full object-cover sm:hidden"
+            className={`w-full h-full object-cover sm:hidden transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => setMobileVideoLoaded(true)}
             onError={() => setMobileVideoLoaded(false)}
@@ -215,7 +252,7 @@ export default function HomePage() {
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-cover hidden sm:block"
+            className={`w-full h-full object-cover hidden sm:block transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => setDesktopVideoLoaded(true)}
             onError={() => setDesktopVideoLoaded(false)}
@@ -247,6 +284,7 @@ export default function HomePage() {
           <div className="absolute bottom-20 right-10 w-40 h-40 bg-nature-green/10 rounded-full blur-3xl"></div>
           <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-sage-green/10 rounded-full blur-2xl"></div>
         </div>
+
 
       </section>
 
@@ -539,7 +577,7 @@ export default function HomePage() {
                   >
                     {isSubmitting ? (
                       <>
-                        <div className="w-5 h-5 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <DotSpinner size="sm" color="white" className="mr-2" />
                         Sending...
                       </>
                     ) : (

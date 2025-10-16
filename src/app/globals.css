@@ -163,6 +163,18 @@ html {
   }
 }
 
+/* Dot Spinner Animation */
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Utility classes */
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out;
@@ -186,6 +198,10 @@ html {
 
 .animate-bounce-in {
   animation: bounceIn 0.8s ease-out;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1s ease-in-out infinite;
 }
 
 /* Custom button styles */
