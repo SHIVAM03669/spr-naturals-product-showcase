@@ -158,7 +158,7 @@ export default function GoogleTranslate() {
       
       {/* Custom Language Selector */}
       <select 
-        className="notranslate bg-white border border-sage-green/30 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-nature-green cursor-pointer z-[60]"
+        className="notranslate bg-white border border-sage-green/30 rounded-lg px-1 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-nature-green cursor-pointer z-[60] sm:px-2"
         onChange={(e) => {
           if (e.target.value) {
             window.doGTranslate(e.target.value);
@@ -167,7 +167,7 @@ export default function GoogleTranslate() {
         defaultValue=""
       >
         <option value="" disabled className="notranslate">
-          🌐 Language
+          🌐 Lang
         </option>
         <option value="en|en" className="notranslate">🇺🇸 English</option>
         <option value="en|af" className="notranslate">🇿🇦 Afrikaans</option>

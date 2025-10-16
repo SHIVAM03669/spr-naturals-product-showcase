@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Leaf, Heart, Droplet, ShieldCheck, Sparkles, Send, Check } from "lucide-react";
@@ -17,7 +17,8 @@ import { sendContactEmail, validateContactForm, ContactFormData } from "@/lib/em
 
 export default function HomePage() {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [mobileVideoLoaded, setMobileVideoLoaded] = useState(false);
+  const [desktopVideoLoaded, setDesktopVideoLoaded] = useState(false);
   const [formData, setFormData] = useState({
     company_name: '',
     user_name: '',
@@ -28,6 +29,26 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
 
+  // Force mobile video to load on mobile devices
+  useEffect(() => {
+    const isMobile = window.innerWidth < 640; // sm breakpoint
+    if (isMobile) {
+      const mobileVideo = document.getElementById('mobile-bg-video') as HTMLVideoElement;
+      if (mobileVideo) {
+        mobileVideo.load();
+        mobileVideo.play().catch(() => {
+          // If autoplay fails, try again after user interaction
+          const playVideo = () => {
+            mobileVideo.play().catch(() => {});
+            document.removeEventListener('touchstart', playVideo);
+            document.removeEventListener('click', playVideo);
+          };
+          document.addEventListener('touchstart', playVideo);
+          document.addEventListener('click', playVideo);
+        });
+      }
+    }
+  }, []);
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -167,17 +188,39 @@ export default function HomePage() {
       </nav>
         {/* Background Video */}
         <div className="absolute inset-0 overflow-hidden bg-black">
+          {/* Mobile Video */}
+          <video
+            id="mobile-bg-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            webkit-playsinline="true"
+            className="w-full h-full object-cover sm:hidden"
+            style={{ zIndex: -1 }}
+            onLoadedData={() => setMobileVideoLoaded(true)}
+            onError={() => setMobileVideoLoaded(false)}
+            onCanPlay={() => setMobileVideoLoaded(true)}
+            onLoadStart={() => setMobileVideoLoaded(false)}
+          >
+            <source src="/mobilebgvideo.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          
+          {/* Desktop Video */}
           <video
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-contain sm:object-cover"
+            className="w-full h-full object-cover hidden sm:block"
             style={{ zIndex: -1 }}
-            onLoadedData={() => setVideoLoaded(true)}
-            onError={() => setVideoLoaded(false)}
-            onCanPlay={() => setVideoLoaded(true)}
+            onLoadedData={() => setDesktopVideoLoaded(true)}
+            onError={() => setDesktopVideoLoaded(false)}
+            onCanPlay={() => setDesktopVideoLoaded(true)}
+            onLoadStart={() => setDesktopVideoLoaded(false)}
           >
             <source src="/bg_video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
@@ -185,7 +228,7 @@ export default function HomePage() {
         </div>
         
         {/* Fallback background image - shown if video fails */}
-        {!videoLoaded && (
+        {(!mobileVideoLoaded && !desktopVideoLoaded) && (
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ 
