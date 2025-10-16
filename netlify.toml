@@ -1,35 +1,12 @@
-# ===========================
-# ✅ Netlify Configuration for Next.js 14
-# ===========================
-
 [build]
-  # Install dependencies and build the Next.js app
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
 
-  # (Optional) You can remove this if you don't use custom environment vars
-  [build.environment]
-    NODE_VERSION = "18"
-    NPM_FLAGS = "--legacy-peer-deps"
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
 
-# ===========================
-# ✅ Next.js Plugin
-# Handles SSR, ISR, API routes & redirects automatically
-# ===========================
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# ===========================
-# ✅ Netlify Functions
-# (used internally for SSR and API routes)
-# ===========================
 [functions]
   node_bundler = "esbuild"
-
-# ===========================
-# ✅ Optional: Custom 404 fallback (safe for Next.js SSR)
-# ===========================
-# Uncomment if you want all unknown routes to go to your Next.js 404 page
-# [[redirects]]
-#   from = "/*"
-#   to = "/404"
-#   status = 404
