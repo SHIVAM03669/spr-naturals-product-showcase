@@ -1,5 +1,4 @@
   import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
 
 const CHATBOT_PROMPT = `Act like a chatbot for SPR Naturals - Premium Natural Products from India to the World
 
@@ -44,49 +43,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
-    }
+    // Simple keyword-based responses for deployment
+    const lowerMessage = message.toLowerCase();
+    let response = "";
 
-    const ai = new GoogleGenAI({ apiKey });
-    
-    const prompt = `${CHATBOT_PROMPT}
-
-User's question: ${message}
-
-Please respond as the SPR Naturals chatbot, being helpful, professional, and staying within the defined scope.`;
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-001',
-      contents: prompt,
-    });
-
-    const fullResponse = response.text;
-
-    if (!fullResponse) {
-      return NextResponse.json(
-        { 
-          error: 'No response generated from AI',
-          response: "Sorry, I couldn't generate a response. Please try again or contact us directly at info@sprnaturals.in"
-        }, 
-        { status: 500 }
-      );
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+      response = "Hello! Welcome to SPR Naturals. I can help you with information about our eco-friendly products. How can I assist you today?";
+    } else if (lowerMessage.includes('product') || lowerMessage.includes('catalog')) {
+      response = "We offer a wide range of eco-friendly products including natural tableware (areca leaf plates), sugarcane fiber tableware (bagasse plates), paper drinkware (cups and straws), paper packaging, food packaging, aluminium containers, wooden cutlery, and clamshell containers. For detailed product information, please contact us at info@sprnaturals.in or WhatsApp +917447755042.";
+    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+      response = "For pricing information and quotes, please contact our team directly at info@sprnaturals.in or WhatsApp +917447755042. We'll be happy to provide you with detailed pricing for our eco-friendly products.";
+    } else if (lowerMessage.includes('export') || lowerMessage.includes('shipping')) {
+      response = "We have 15+ years of export experience and ship to 15+ countries from Nagpur, India. We provide custom packaging and documentation support. For export inquiries, contact us at info@sprnaturals.in or WhatsApp +917447755042.";
+    } else if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+      response = "You can reach us at:\n📧 Email: info@sprnaturals.in\n📱 WhatsApp: +917447755042\n📍 Location: Nagpur, India\n🕒 Business Hours: Mon–Sat, 9AM – 6PM IST";
+    } else {
+      response = "Thank you for your interest in SPR Naturals! I can help you with product information, export inquiries, and general questions about our eco-friendly tableware and packaging solutions. For detailed assistance, please contact us at info@sprnaturals.in or WhatsApp +917447755042.";
     }
 
     return NextResponse.json({ 
-      response: fullResponse.trim(),
+      response: response,
       timestamp: new Date().toISOString()
     });
 
   } catch (error) {
     console.error('Chatbot API error:', error);
-    return NextResponse.json(
-      { 
-        error: 'Failed to process your message. Please try again later.',
-        response: "Sorry, I'm having trouble processing your request right now. For immediate assistance, please contact us at info@sprnaturals.in or WhatsApp +917447755042."
-      }, 
-      { status: 500 }
-    );
+    
+    return NextResponse.json({ 
+      response: "Sorry, I'm having trouble processing your request right now. For immediate assistance, please contact us at info@sprnaturals.in or WhatsApp +917447755042.",
+      timestamp: new Date().toISOString()
+    });
   }
 }

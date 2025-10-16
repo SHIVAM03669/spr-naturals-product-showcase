@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  # Disable lightningcss optimization for Netlify
+  NEXT_PRIVATE_DISABLE_LIGHTNINGCSS = "1"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

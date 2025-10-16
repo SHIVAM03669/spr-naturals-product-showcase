@@ -28,7 +28,8 @@ const nextConfig = {
   //   }
   // },
   experimental: {
-    optimizeCss: true,
+    // Disable optimizeCss to avoid lightningcss issues on Netlify
+    optimizeCss: process.env.NODE_ENV === 'development',
   }
 };
 
