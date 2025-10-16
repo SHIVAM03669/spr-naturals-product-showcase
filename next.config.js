@@ -27,10 +27,9 @@ const nextConfig = {
   //     }
   //   }
   // },
-  experimental: {
-    // Disable optimizeCss to avoid lightningcss issues on Netlify
-    optimizeCss: process.env.NODE_ENV === 'development',
-  }
+  // experimental: {
+  //   optimizeCss: true, // Not needed for Tailwind CSS v3
+  // }
 };
 
 module.exports = nextConfig;
