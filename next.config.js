@@ -1,9 +1,8 @@
-import type { NextConfig } from "next";
-import path from "node:path";
+const path = require('path');
 
 const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   images: {
     remotePatterns: [
       {
@@ -20,7 +19,6 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  outputFileTracingRoot: path.resolve(__dirname, '.'),
   // Temporarily disable custom loader for Netlify deployment
   // turbopack: {
   //   rules: {
@@ -34,4 +32,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+module.exports = nextConfig;
