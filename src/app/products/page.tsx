@@ -17,7 +17,7 @@ export default function ProductsCategoriesPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={48} height={48} className="rounded" />
               <span className="text-2xl font-bold text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>

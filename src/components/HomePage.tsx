@@ -189,12 +189,12 @@ export default function HomePage() {
   
       {/* Hero Section - Natural Layout with background video */}
       <section className="relative min-h-screen flex items-center justify-center">
-        <nav className="absolute top-0 left-0 w-full bg-transparent backdrop-blur-sm transition-all duration-300 z-50">
+        <nav className="absolute top-0 left-0 w-full bg-transparent transition-all duration-300 z-50">
 
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={88} height={88} className="rounded" />
               <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>
@@ -610,7 +610,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-5 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Image src="/logo2.0.png" alt="SPR Naturals" width={24} height={24} className="rounded" />
+                <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
                 <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>SPR Naturals</span>
               </div>
               <p className="text-white/80 text-sm">Merchant exporter of premium natural and eco-friendly products. Global shipping from Nagpur, India.</p>
