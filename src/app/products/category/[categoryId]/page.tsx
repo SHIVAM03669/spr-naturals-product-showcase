@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getCategoryById, getProductsByCategoryId } from "@/lib/utils";
-import { Leaf, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -34,7 +34,7 @@ export default function CategoryDetailPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-              <Leaf className="w-8 h-8 text-nature-green" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
               <span className="text-2xl font-bold text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>
@@ -69,29 +69,32 @@ export default function CategoryDetailPage() {
           {products.length === 0 ? (
             <div className="text-center text-muted-foreground">No products available in this category yet.</div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
                 <Link key={product.id} href={`/products/${product.id}`}>
-                  <Card className="overflow-hidden hover-lift cursor-pointer border-sage-green/20 bg-white h-full flex flex-col">
-                    <div className="relative h-56 bg-cream">
+                  <Card className="group overflow-hidden hover-lift cursor-pointer border-sage-green/20 bg-white h-full flex flex-col transition-all duration-300 hover:border-sage-green/40 hover:shadow-xl">
+                    <div className="relative aspect-[4/3] bg-cream overflow-hidden">
                       <Image 
                         src={product.image} 
                         alt={product.name} 
                         fill 
-                        className="object-cover"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        quality={75}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                        quality={80}
                         placeholder="blur"
                         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <div className="p-6 flex flex-col flex-grow">
+                    <div className="p-5 flex flex-col flex-grow">
                       <div className="text-xs font-medium text-sage-green mb-2 uppercase tracking-wider">{product.categoryName}</div>
-                      <h3 className="text-lg font-semibold mb-2 text-foreground">{product.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-4 flex-grow">{product.description}</p>
-                      <div className="mt-auto pt-3 border-t border-sage-green/10">
-                        <Button size="sm" className="bg-nature-green hover:bg-leaf-green text-white">View Details</Button>
+                      <h3 className="text-lg font-semibold mb-3 text-foreground leading-tight">{product.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-4 flex-grow leading-relaxed">{product.description}</p>
+                      <div className="pt-3 border-t border-sage-green/10">
+                        <Button size="sm" className="w-full bg-nature-green hover:bg-leaf-green text-white transition-colors duration-200">
+                          View Details
+                        </Button>
                       </div>
                     </div>
                   </Card>

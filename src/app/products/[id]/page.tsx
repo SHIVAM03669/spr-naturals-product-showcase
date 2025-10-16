@@ -1,11 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Leaf, Heart, ShieldCheck, Droplet, Star, Check, Minus, Plus, ArrowLeft } from "lucide-react";
+import { Leaf, Heart, ShieldCheck, Droplet, Star, Check, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getCatalogProductById } from "@/lib/utils";
@@ -30,7 +29,7 @@ const productsData = {
       "Suitable for all skin types"
     ],
     features: [
-      { icon: <Leaf className="w-5 h-5" />, text: "100% Natural Ingredients" },
+      
       { icon: <Heart className="w-5 h-5" />, text: "Cruelty-Free" },
       { icon: <ShieldCheck className="w-5 h-5" />, text: "Dermatologist Tested" },
       { icon: <Droplet className="w-5 h-5" />, text: "Chemical-Free" }
@@ -117,6 +116,47 @@ const productsData = {
   }
 };
 
+// Function to get appropriate "How to Use" content based on product category
+const getHowToUseContent = (category: string, productName: string): string => {
+  const categoryLower = category.toLowerCase();
+  const nameLower = productName.toLowerCase();
+
+  if (categoryLower.includes('natural tableware') || nameLower.includes('areca leaf')) {
+    return "Perfect for serving appetizers, main courses, and desserts. These plates are microwave-safe for heating food and can be used for both hot and cold dishes. After use, simply dispose in compost or food waste bin - they will naturally decompose within 60-90 days. Store in a cool, dry place to maintain freshness.";
+  }
+  
+  if (categoryLower.includes('sugarcane') || nameLower.includes('bagasse')) {
+    return "Ideal for serving meals, snacks, and appetizers. These plates are microwave-safe, freezer-safe, and can handle both hot and cold foods. Perfect for takeaway, catering, and events. After use, dispose in compost or food waste bin - they will biodegrade naturally. Store in a cool, dry place away from direct sunlight.";
+  }
+  
+  if (categoryLower.includes('paper drinkware') || nameLower.includes('paper cups')) {
+    return "Perfect for hot and cold beverages. These cups can handle temperatures up to 95°C for hot drinks and are suitable for cold beverages and smoothies. Simply fill with your preferred drink and enjoy. After use, dispose in recycling bin or compost if the cup is certified compostable. Store in a cool, dry place.";
+  }
+  
+  if (categoryLower.includes('straw') || nameLower.includes('straws')) {
+    return "Insert into your beverage and enjoy your drink. These straws are perfect for cold drinks, smoothies, cocktails, and milkshakes. They maintain their integrity for the duration of your drink. After use, dispose in compost or food waste bin - they will biodegrade naturally. Store in a cool, dry place.";
+  }
+  
+  if (categoryLower.includes('paper packaging') || nameLower.includes('paper bags')) {
+    return "Perfect for carrying retail items, groceries, gifts, and food items. These bags can hold various weights depending on size. Use handles for easy carrying. After use, reuse the bag for storage or dispose in recycling bin. Store in a cool, dry place to maintain durability.";
+  }
+  
+  if (categoryLower.includes('food packaging') || nameLower.includes('meal boxes') || nameLower.includes('aluminium')) {
+    return "Ideal for takeaway meals, food storage, and catering. These containers are leak-resistant and can handle both hot and cold foods. Aluminium containers are oven-safe and perfect for reheating. After use, dispose in appropriate recycling bin. Store in a cool, dry place.";
+  }
+  
+  if (categoryLower.includes('cutlery') || nameLower.includes('wooden')) {
+    return "Perfect for events, parties, takeaway, and outdoor dining. Use just like regular cutlery - these spoons, forks, and knives are sturdy enough for most foods. Ideal for salads, desserts, finger foods, and light meals. After use, dispose in compost or food waste bin - they will biodegrade naturally. Store in a cool, dry place.";
+  }
+  
+  if (categoryLower.includes('clamshell')) {
+    return "Perfect for takeaway meals, salads, sandwiches, and food storage. These containers provide excellent protection for food during transport. Ideal for restaurants, cafes, and food service businesses. After use, dispose in appropriate recycling bin. Store in a cool, dry place to maintain quality.";
+  }
+  
+  // Default fallback
+  return "Use according to your specific needs and requirements. This eco-friendly product is designed for sustainable use and can be disposed of in an environmentally responsible manner. Store in a cool, dry place away from direct sunlight to maintain quality and durability.";
+};
+
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
@@ -142,7 +182,6 @@ export default function ProductDetailPage() {
         volume: undefined as unknown as string | undefined,
       }
     : undefined);
-  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return (
@@ -159,13 +198,6 @@ export default function ProductDetailPage() {
     );
   }
 
-  const handleQuantityChange = (action: 'increase' | 'decrease') => {
-    if (action === 'increase') {
-      setQuantity(prev => prev + 1);
-    } else if (action === 'decrease' && quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -174,7 +206,7 @@ export default function ProductDetailPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-              <Leaf className="w-8 h-8 text-nature-green" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
               <span className="text-2xl font-bold text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>
@@ -192,28 +224,29 @@ export default function ProductDetailPage() {
       {/* Product Detail Section */}
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
+          <div className="grid md:grid-cols-3 gap-12 mb-16">
             {/* Product Image */}
             <div className="relative">
               <div className="sticky top-24">
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-cream">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-cream max-w-md mx-auto">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
                     className="object-cover"
                     priority
-                    quality={85}
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={75}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 25vw"
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    loading="eager"
                   />
                 </div>
               </div>
             </div>
 
             {/* Product Info */}
-            <div>
+            <div className="md:col-span-2">
               <Badge className="mb-4 bg-sage-green/20 text-nature-green hover:bg-sage-green/30">
                 {product.category}
               </Badge>
@@ -255,41 +288,14 @@ export default function ProductDetailPage() {
                 </div>
               ) : null}
 
-              {/* Quantity Selector */}
-              {typeof product.price === 'number' ? (
-                <div className="mb-8">
-                  <label className="block text-sm font-medium text-foreground mb-3">Quantity</label>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center border border-sage-green/30 rounded-lg">
-                      <button
-                        onClick={() => handleQuantityChange('decrease')}
-                        className="p-3 hover:bg-sage-green/10 transition-colors"
-                      >
-                        <Minus className="w-4 h-4 text-nature-green" />
-                      </button>
-                      <span className="px-6 py-3 text-lg font-semibold">{quantity}</span>
-                      <button
-                        onClick={() => handleQuantityChange('increase')}
-                        className="p-3 hover:bg-sage-green/10 transition-colors"
-                      >
-                        <Plus className="w-4 h-4 text-nature-green" />
-                      </button>
-                    </div>
-                    <span className="text-muted-foreground">
-                      Total: ${(product.price * quantity).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
-              ) : null}
 
-              {/* Action Buttons */}
-              <div className="flex gap-4 mb-8">
-                <Button className="flex-1 bg-nature-green hover:bg-leaf-green text-white py-6 text-lg">
-                  Add to Cart
-                </Button>
-                <Button variant="outline" className="border-nature-green text-nature-green hover:bg-sage-green/10 py-6 px-6">
-                  <Heart className="w-5 h-5" />
-                </Button>
+              {/* Action Button */}
+              <div className="mb-8">
+                <Link href="/#contact">
+                  <Button className="w-full bg-nature-green hover:bg-leaf-green text-white py-6 text-lg">
+                    Enquire Now
+                  </Button>
+                </Link>
               </div>
 
               {/* Features Grid */}
@@ -351,9 +357,7 @@ export default function ProductDetailPage() {
               How to Use
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Apply a small amount to clean skin and massage gently in circular motions until fully absorbed. 
-              For best results, use daily as part of your natural skincare routine. Store in a cool, dry place 
-              away from direct sunlight to maintain product efficacy.
+              {getHowToUseContent(product.category, product.name)}
             </p>
           </Card>
         </div>
@@ -364,7 +368,7 @@ export default function ProductDetailPage() {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Leaf className="w-6 h-6" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={24} height={24} className="rounded" />
               <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>

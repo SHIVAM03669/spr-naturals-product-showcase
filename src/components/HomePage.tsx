@@ -316,7 +316,7 @@ export default function HomePage() {
                           src={img}
                           alt={alt}
                           fill
-                          className="object-contain p-2 brightness-110 contrast-110 saturate-[1.1]"
+                          className="object-cover p-0 brightness-110 contrast-110 saturate-[1.1]"
                         />
                       );
                     })()}

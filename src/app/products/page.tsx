@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getAllCategoriesWithCounts, getProductsByCategoryId } from "@/lib/utils";
-import { Leaf, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProductsCategoriesPage() {
   const categories = getAllCategoriesWithCounts();
@@ -17,7 +17,7 @@ export default function ProductsCategoriesPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-              <Leaf className="w-8 h-8 text-nature-green" />
+              <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
               <span className="text-2xl font-bold text-nature-green" style={{ fontFamily: "'Playfair Display', serif" }}>
                 SPR Naturals
               </span>
@@ -43,11 +43,11 @@ export default function ProductsCategoriesPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {categories.map((cat) => (
               <Link key={cat.id} href={`/products/category/${cat.id}`}>
-                <Card className="overflow-hidden hover-lift cursor-pointer border-sage-green/20 bg-white h-full flex flex-col">
-                  <div className="relative h-44 bg-cream">
+                <Card className="group overflow-hidden hover-lift cursor-pointer border-sage-green/20 bg-white h-full flex flex-col transition-all duration-300 hover:border-sage-green/40 hover:shadow-xl">
+                  <div className="relative aspect-[4/3] bg-cream overflow-hidden">
                     {(() => {
                       const first = getProductsByCategoryId(cat.id)[0];
                       const img = cat.image ?? first?.image ?? "/window.svg";
@@ -57,26 +57,31 @@ export default function ProductsCategoriesPage() {
                           src={img} 
                           alt={alt} 
                           fill 
-                          className="object-cover"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
                           loading="lazy"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          quality={75}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                          quality={80}
                           placeholder="blur"
                           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                         />
                       );
                     })()}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-xl font-semibold text-foreground">{cat.name}</h3>
-                      <Badge className="bg-sage-green/20 text-nature-green hover:bg-sage-green/30">{cat.count}</Badge>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-lg font-semibold text-foreground leading-tight">{cat.name}</h3>
+                      <Badge className="bg-sage-green/20 text-nature-green hover:bg-sage-green/30 text-xs px-2 py-1 flex-shrink-0 ml-2">{cat.count}</Badge>
                     </div>
                     {cat.blurb ? (
-                      <p className="text-sm text-muted-foreground mt-2">{cat.blurb}</p>
-                    ) : null}
-                    <div className="mt-4 pt-3 border-t border-sage-green/10">
-                      <Button size="sm" className="bg-nature-green hover:bg-leaf-green text-white">View Category</Button>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">{cat.blurb}</p>
+                    ) : (
+                      <div className="flex-grow" />
+                    )}
+                    <div className="pt-3 border-t border-sage-green/10">
+                      <Button size="sm" className="w-full bg-nature-green hover:bg-leaf-green text-white transition-colors duration-200">
+                        View Category
+                      </Button>
                     </div>
                   </div>
                 </Card>
