@@ -83,32 +83,42 @@ export default function HomePage() {
     };
   }, [isVideoMuted]);
 
-  // Force mobile video to load on mobile devices
+  // Force videos to load and play on all devices
   useEffect(() => {
-    const isMobile = window.innerWidth < 640; // sm breakpoint
-    if (isMobile) {
-      const mobileVideo = document.getElementById('mobile-bg-video') as HTMLVideoElement;
-      if (mobileVideo) {
-        mobileVideo.load();
-        // Start with sound enabled (unmuted)
-        mobileVideo.muted = false;
-        mobileVideo.play().catch(() => {
-          // If unmuted autoplay fails, fallback to muted
-          mobileVideo.muted = true;
-          setIsVideoMuted(true);
-          mobileVideo.play().catch(() => {
-            // If autoplay still fails, try again after user interaction
-            const playVideo = () => {
-              mobileVideo.play().catch(() => {});
-              document.removeEventListener('touchstart', playVideo);
-              document.removeEventListener('click', playVideo);
+    const playVideos = async () => {
+      const isMobile = window.innerWidth < 640;
+      const videos = document.querySelectorAll('video');
+      
+      for (const video of videos) {
+        try {
+          // First try to play with sound
+          video.muted = false;
+          await video.play();
+          setIsVideoMuted(false);
+        } catch (error) {
+          // If that fails, try muted
+          try {
+            video.muted = true;
+            setIsVideoMuted(true);
+            await video.play();
+          } catch (mutedError) {
+            // If both fail, set up user interaction handlers
+            const playOnInteraction = () => {
+              video.play().catch(() => {});
+              document.removeEventListener('click', playOnInteraction);
+              document.removeEventListener('touchstart', playOnInteraction);
+              document.removeEventListener('keydown', playOnInteraction);
             };
-            document.addEventListener('touchstart', playVideo);
-            document.addEventListener('click', playVideo);
-          });
-        });
+            document.addEventListener('click', playOnInteraction);
+            document.addEventListener('touchstart', playOnInteraction);
+            document.addEventListener('keydown', playOnInteraction);
+          }
+        }
       }
-    }
+    };
+
+    // Small delay to ensure DOM is ready
+    setTimeout(playVideos, 100);
   }, []);
 
   // Handle video loading state
@@ -294,9 +304,31 @@ export default function HomePage() {
             webkit-playsinline="true"
             className={`w-full h-full object-cover sm:hidden transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
-            onLoadedData={() => setMobileVideoLoaded(true)}
+            onLoadedData={() => {
+              setMobileVideoLoaded(true);
+              const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
+              if (video) {
+                video.play().catch(() => {
+                  // If autoplay fails, try muted
+                  video.muted = true;
+                  setIsVideoMuted(true);
+                  video.play().catch(() => {});
+                });
+              }
+            }}
             onError={() => setMobileVideoLoaded(false)}
-            onCanPlay={() => setMobileVideoLoaded(true)}
+            onCanPlay={() => {
+              setMobileVideoLoaded(true);
+              const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
+              if (video) {
+                video.play().catch(() => {
+                  // If autoplay fails, try muted
+                  video.muted = true;
+                  setIsVideoMuted(true);
+                  video.play().catch(() => {});
+                });
+              }
+            }}
             onLoadStart={() => setMobileVideoLoaded(false)}
           >
             <source src="/mobilebgvideo.mp4" type="video/mp4" />
@@ -305,15 +337,38 @@ export default function HomePage() {
           
           {/* Desktop Video */}
           <video
+            id="desktop-bg-video"
             autoPlay
             loop
             playsInline
             preload="auto"
             className={`w-full h-full object-cover hidden sm:block transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
-            onLoadedData={() => setDesktopVideoLoaded(true)}
+            onLoadedData={() => {
+              setDesktopVideoLoaded(true);
+              const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
+              if (video) {
+                video.play().catch(() => {
+                  // If autoplay fails, try muted
+                  video.muted = true;
+                  setIsVideoMuted(true);
+                  video.play().catch(() => {});
+                });
+              }
+            }}
             onError={() => setDesktopVideoLoaded(false)}
-            onCanPlay={() => setDesktopVideoLoaded(true)}
+            onCanPlay={() => {
+              setDesktopVideoLoaded(true);
+              const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
+              if (video) {
+                video.play().catch(() => {
+                  // If autoplay fails, try muted
+                  video.muted = true;
+                  setIsVideoMuted(true);
+                  video.play().catch(() => {});
+                });
+              }
+            }}
             onLoadStart={() => setDesktopVideoLoaded(false)}
           >
             <source src="/bg_video.mp4" type="video/mp4" />
