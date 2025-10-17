@@ -55,14 +55,14 @@ export default function HomePage() {
     const handleFirstInteraction = () => {
       const videos = document.querySelectorAll('video');
       videos.forEach(video => {
-        if (video.muted && !isVideoMuted) {
-          video.muted = false;
-          video.play().catch(() => {
-            // If unmuted play fails, keep it muted
-            video.muted = true;
-            setIsVideoMuted(true);
-          });
-        }
+        // Always try to unmute on user interaction
+        video.muted = false;
+        setIsVideoMuted(false);
+        video.play().catch(() => {
+          // If unmuted play fails, keep it muted
+          video.muted = true;
+          setIsVideoMuted(true);
+        });
       });
       
       // Remove listeners after first interaction
@@ -81,7 +81,7 @@ export default function HomePage() {
       document.removeEventListener('touchstart', handleFirstInteraction);
       document.removeEventListener('keydown', handleFirstInteraction);
     };
-  }, [isVideoMuted]);
+  }, []);
 
   // Force videos to load and play on all devices
   useEffect(() => {
@@ -90,13 +90,14 @@ export default function HomePage() {
       const videos = document.querySelectorAll('video');
       
       for (const video of videos) {
+        // Start with unmuted by default
+        video.muted = false;
+        setIsVideoMuted(false);
+        
         try {
-          // First try to play with sound
-          video.muted = false;
           await video.play();
-          setIsVideoMuted(false);
         } catch (error) {
-          // If that fails, try muted
+          // Only if unmuted play fails, try muted as fallback
           try {
             video.muted = true;
             setIsVideoMuted(true);
@@ -104,7 +105,13 @@ export default function HomePage() {
           } catch (mutedError) {
             // If both fail, set up user interaction handlers
             const playOnInteraction = () => {
-              video.play().catch(() => {});
+              video.muted = false;
+              setIsVideoMuted(false);
+              video.play().catch(() => {
+                video.muted = true;
+                setIsVideoMuted(true);
+                video.play().catch(() => {});
+              });
               document.removeEventListener('click', playOnInteraction);
               document.removeEventListener('touchstart', playOnInteraction);
               document.removeEventListener('keydown', playOnInteraction);
@@ -308,8 +315,10 @@ export default function HomePage() {
               setMobileVideoLoaded(true);
               const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
               if (video) {
+                video.muted = false;
+                setIsVideoMuted(false);
                 video.play().catch(() => {
-                  // If autoplay fails, try muted
+                  // Only if unmuted autoplay fails, try muted
                   video.muted = true;
                   setIsVideoMuted(true);
                   video.play().catch(() => {});
@@ -321,8 +330,10 @@ export default function HomePage() {
               setMobileVideoLoaded(true);
               const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
               if (video) {
+                video.muted = false;
+                setIsVideoMuted(false);
                 video.play().catch(() => {
-                  // If autoplay fails, try muted
+                  // Only if unmuted autoplay fails, try muted
                   video.muted = true;
                   setIsVideoMuted(true);
                   video.play().catch(() => {});
@@ -348,8 +359,10 @@ export default function HomePage() {
               setDesktopVideoLoaded(true);
               const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
               if (video) {
+                video.muted = false;
+                setIsVideoMuted(false);
                 video.play().catch(() => {
-                  // If autoplay fails, try muted
+                  // Only if unmuted autoplay fails, try muted
                   video.muted = true;
                   setIsVideoMuted(true);
                   video.play().catch(() => {});
@@ -361,8 +374,10 @@ export default function HomePage() {
               setDesktopVideoLoaded(true);
               const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
               if (video) {
+                video.muted = false;
+                setIsVideoMuted(false);
                 video.play().catch(() => {
-                  // If autoplay fails, try muted
+                  // Only if unmuted autoplay fails, try muted
                   video.muted = true;
                   setIsVideoMuted(true);
                   video.play().catch(() => {});
