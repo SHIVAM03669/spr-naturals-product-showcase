@@ -21,7 +21,7 @@ export default function HomePage() {
   const [mobileVideoLoaded, setMobileVideoLoaded] = useState(false);
   const [desktopVideoLoaded, setDesktopVideoLoaded] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
-  const [isVideoMuted, setIsVideoMuted] = useState(false);
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
   const [formData, setFormData] = useState({
     company_name: '',
     user_name: '',
@@ -40,93 +40,31 @@ export default function HomePage() {
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
       video.muted = !isVideoMuted;
-      // Try to play if it was paused due to autoplay restrictions
-      if (!video.paused) return;
-      video.play().catch(() => {
-        // If play fails, keep it muted for now
-        video.muted = true;
-        setIsVideoMuted(true);
-      });
     });
   };
 
-  // Handle autoplay restrictions - try to enable sound on first user interaction
+  // Handle autoplay restrictions - start videos muted by default
   useEffect(() => {
-    const handleFirstInteraction = () => {
-      const videos = document.querySelectorAll('video');
-      videos.forEach(video => {
-        // Always try to unmute on user interaction
-        video.muted = false;
-        setIsVideoMuted(false);
-        video.play().catch(() => {
-          // If unmuted play fails, keep it muted
-          video.muted = true;
-          setIsVideoMuted(true);
-        });
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+      // Start videos muted to ensure they play
+      video.muted = true;
+      setIsVideoMuted(true);
+      video.play().catch(() => {
+        // If play fails, set up user interaction handlers
+        const playOnInteraction = () => {
+          video.play().catch(() => {});
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('touchstart', playOnInteraction);
+          document.removeEventListener('keydown', playOnInteraction);
+        };
+        document.addEventListener('click', playOnInteraction);
+        document.addEventListener('touchstart', playOnInteraction);
+        document.addEventListener('keydown', playOnInteraction);
       });
-      
-      // Remove listeners after first interaction
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-    };
-
-    // Add listeners for first user interaction
-    document.addEventListener('click', handleFirstInteraction);
-    document.addEventListener('touchstart', handleFirstInteraction);
-    document.addEventListener('keydown', handleFirstInteraction);
-
-    return () => {
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstInteraction);
-    };
+    });
   }, []);
 
-  // Force videos to load and play on all devices
-  useEffect(() => {
-    const playVideos = async () => {
-      const isMobile = window.innerWidth < 640;
-      const videos = document.querySelectorAll('video');
-      
-      for (const video of videos) {
-        // Start with unmuted by default
-        video.muted = false;
-        setIsVideoMuted(false);
-        
-        try {
-          await video.play();
-        } catch (error) {
-          // Only if unmuted play fails, try muted as fallback
-          try {
-            video.muted = true;
-            setIsVideoMuted(true);
-            await video.play();
-          } catch (mutedError) {
-            // If both fail, set up user interaction handlers
-            const playOnInteraction = () => {
-              video.muted = false;
-              setIsVideoMuted(false);
-              video.play().catch(() => {
-                video.muted = true;
-                setIsVideoMuted(true);
-                video.play().catch(() => {});
-              });
-              document.removeEventListener('click', playOnInteraction);
-              document.removeEventListener('touchstart', playOnInteraction);
-              document.removeEventListener('keydown', playOnInteraction);
-            };
-            document.addEventListener('click', playOnInteraction);
-            document.addEventListener('touchstart', playOnInteraction);
-            document.addEventListener('keydown', playOnInteraction);
-          }
-        }
-      }
-    };
-
-    // Small delay to ensure DOM is ready
-    setTimeout(playVideos, 100);
-  }, []);
 
   // Handle video loading state
   useEffect(() => {
@@ -276,11 +214,11 @@ export default function HomePage() {
               </span>
             </div>
             <div className="hidden md:flex items-center gap-8">
-              <a href="#about" className="text-white hover:text-nature-green transition-colors">About</a>
-              <a href="#products" className="text-white hover:text-nature-green transition-colors">Products</a>
-              <a href="#benefits" className="text-white hover:text-nature-green transition-colors">Benefits</a>
-              <a href="#testimonials" className="text-white hover:text-nature-green transition-colors">Testimonials</a>
-              <a href="#contact" className="text-white hover:text-nature-green transition-colors">Contact</a>
+              <a href="#about" className="text-white hover:text-nature-green transition-colors text-lg font-medium">About</a>
+              <a href="#products" className="text-white hover:text-nature-green transition-colors text-lg font-medium">Products</a>
+              <a href="#benefits" className="text-white hover:text-nature-green transition-colors text-lg font-medium">Benefits</a>
+              <a href="#testimonials" className="text-white hover:text-nature-green transition-colors text-lg font-medium">Testimonials</a>
+              <a href="#contact" className="text-white hover:text-nature-green transition-colors text-lg font-medium">Contact</a>
             </div>
             <div className="flex items-center gap-4">
               <GoogleTranslate />
@@ -309,36 +247,15 @@ export default function HomePage() {
             playsInline
             preload="auto"
             webkit-playsinline="true"
+            muted={true}
             className={`w-full h-full object-cover sm:hidden transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => {
               setMobileVideoLoaded(true);
-              const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
-              if (video) {
-                video.muted = false;
-                setIsVideoMuted(false);
-                video.play().catch(() => {
-                  // Only if unmuted autoplay fails, try muted
-                  video.muted = true;
-                  setIsVideoMuted(true);
-                  video.play().catch(() => {});
-                });
-              }
             }}
             onError={() => setMobileVideoLoaded(false)}
             onCanPlay={() => {
               setMobileVideoLoaded(true);
-              const video = document.getElementById('mobile-bg-video') as HTMLVideoElement;
-              if (video) {
-                video.muted = false;
-                setIsVideoMuted(false);
-                video.play().catch(() => {
-                  // Only if unmuted autoplay fails, try muted
-                  video.muted = true;
-                  setIsVideoMuted(true);
-                  video.play().catch(() => {});
-                });
-              }
             }}
             onLoadStart={() => setMobileVideoLoaded(false)}
           >
@@ -353,36 +270,15 @@ export default function HomePage() {
             loop
             playsInline
             preload="auto"
+            muted={true}
             className={`w-full h-full object-cover hidden sm:block transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => {
               setDesktopVideoLoaded(true);
-              const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
-              if (video) {
-                video.muted = false;
-                setIsVideoMuted(false);
-                video.play().catch(() => {
-                  // Only if unmuted autoplay fails, try muted
-                  video.muted = true;
-                  setIsVideoMuted(true);
-                  video.play().catch(() => {});
-                });
-              }
             }}
             onError={() => setDesktopVideoLoaded(false)}
             onCanPlay={() => {
               setDesktopVideoLoaded(true);
-              const video = document.getElementById('desktop-bg-video') as HTMLVideoElement;
-              if (video) {
-                video.muted = false;
-                setIsVideoMuted(false);
-                video.play().catch(() => {
-                  // Only if unmuted autoplay fails, try muted
-                  video.muted = true;
-                  setIsVideoMuted(true);
-                  video.play().catch(() => {});
-                });
-              }
             }}
             onLoadStart={() => setDesktopVideoLoaded(false)}
           >
@@ -418,6 +314,21 @@ export default function HomePage() {
           )}
           <span className="sr-only">{isVideoMuted ? 'Unmute video' : 'Mute video'}</span>
         </div>
+
+        {/* Sound Enable Prompt - appears when muted */}
+        {isVideoMuted && (
+          <div className="absolute bottom-20 left-4 bg-nature-green/90 backdrop-blur-sm rounded-lg p-4 text-white cursor-pointer hover:bg-nature-green transition-all duration-300 z-20 max-w-xs" onClick={toggleVideoMute}>
+            <div className="flex items-center gap-3">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+              <div>
+                <div className="font-semibold text-sm">Enable Sound</div>
+                <div className="text-xs opacity-90">Click to hear the video with sound</div>
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">

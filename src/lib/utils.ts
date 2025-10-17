@@ -38,27 +38,27 @@ export const catalogProducts: CatalogProduct[] = [
   // Natural Tableware - Areca Leaf Products
   {
     id: 'areca-leaf-plates-small',
-    name: 'Areca Leaf Plates - Small (6 inch)',
+    name: 'Areca Leaf Plates (All Sizes Available)',
     categoryId: 'natural-tableware',
     categoryName: 'Natural Tableware',
-    description: 'Compostable, single-use plates made from areca palm leaves. Perfect for appetizers and small portions.',
+    description: 'Compostable, single-use plates made from areca palm leaves. Available in multiple sizes - perfect for appetizers, main courses, and large portions.',
     image: '/nt6.png',
   },
   {
     id: 'areca-leaf-plates-medium',
-    name: 'Areca Leaf Plates - Medium (8 inch)',
+    name: 'Areca Leaf Plates (Circular)',
     categoryId: 'natural-tableware',
     categoryName: 'Natural Tableware',
-    description: 'Compostable, single-use plates made from areca palm leaves. Ideal for main courses and medium portions.',
-    image: '/nt8.png',
+    description: 'Compostable, circular plates made from areca palm leaves. Perfect for elegant presentations and formal dining.',
+    image: '/ntcircle.png',
   },
   {
     id: 'areca-leaf-plates-large',
-    name: 'Areca Leaf Plates - Large (10 inch)',
+    name: 'Areca Leaf Compartment Plates',
     categoryId: 'natural-tableware',
     categoryName: 'Natural Tableware',
-    description: 'Compostable, single-use plates made from areca palm leaves. Perfect for large meals and buffet serving.',
-    image: '/nt10.png',
+    description: 'Compostable, compartment plates made from areca palm leaves. Perfect for meal separation and organized food presentation.',
+    image: '/ntcompartment.png',
   },
   {
     id: 'areca-leaf-bowls',
@@ -76,6 +76,30 @@ export const catalogProducts: CatalogProduct[] = [
     categoryName: 'Natural Tableware',
     description: 'Beautiful serving trays made from areca palm leaves. Perfect for appetizers and elegant presentations.',
     image: '/nttray.png',
+  },
+  {
+    id: 'areca-leaf-heart-shaped',
+    name: 'Areca Leaf Heart Shaped Plates',
+    categoryId: 'natural-tableware',
+    categoryName: 'Natural Tableware',
+    description: 'Compostable, heart-shaped plates made from areca palm leaves. Perfect for romantic dinners, special occasions, and elegant presentations.',
+    image: '/ntheart.png',
+  },
+  {
+    id: 'areca-leaf-square',
+    name: 'Areca Leaf Square Plates',
+    categoryId: 'natural-tableware',
+    categoryName: 'Natural Tableware',
+    description: 'Compostable, square plates made from areca palm leaves. Perfect for modern presentations and contemporary dining experiences.',
+    image: '/ntsquare.png',
+  },
+  {
+    id: 'areca-leaf-rectangle',
+    name: 'Areca Leaf Rectangle Plates',
+    categoryId: 'natural-tableware',
+    categoryName: 'Natural Tableware',
+    description: 'Compostable, rectangular plates made from areca palm leaves. Perfect for serving appetizers, sushi, and elongated food items.',
+    image: '/ntrectangle.png',
   },
   
   // Sugarcane Fiber Tableware - Bagasse Products
@@ -109,7 +133,7 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'sugarcane-fiber-tableware',
     categoryName: 'Sugarcane Fiber Tableware',
     description: 'Sturdy serving trays made from sugarcane fiber (bagasse). Great for appetizers and finger foods.',
-    image: '/sttray.png',
+    image: '/sttrayss.png',
   },
   {
     id: 'bagasse-compartment',
@@ -117,8 +141,9 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'sugarcane-fiber-tableware',
     categoryName: 'Sugarcane Fiber Tableware',
     description: 'Multi-compartment containers made from sugarcane fiber (bagasse). Perfect for meal prep and food separation.',
-    image: '/stt.png',
+    image: '/sttray.png',
   },
+  
   
   // Paper Drinkware - Paper Cups
   {
@@ -222,7 +247,7 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'food-packaging',
     categoryName: 'Food Packaging',
     description: 'Leak-resistant paper meal boxes for large portions and family meals.',
-    image: '/mbl.png',
+    image: '/meallarge.png',
   },
   {
     id: 'aluminium-foil-containers-small',
@@ -230,7 +255,7 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'food-packaging',
     categoryName: 'Food Packaging',
     description: 'Heat-safe aluminium foil containers for small portions and side dishes.',
-    image: '/acs.png',
+    image: '/acsmall.png',
   },
 
   {
@@ -239,7 +264,7 @@ export const catalogProducts: CatalogProduct[] = [
     categoryId: 'food-packaging',
     categoryName: 'Food Packaging',
     description: 'Heat-safe aluminium foil containers for large meals and batch cooking.',
-    image: '/acl.png',
+    image: '/aclarge.png',
   },
   {
     id: 'silver-foil-roll',
