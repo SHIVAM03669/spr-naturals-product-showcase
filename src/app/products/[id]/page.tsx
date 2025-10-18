@@ -376,6 +376,9 @@ export default function ProductDetailPage() {
             <p className="text-white/80 text-sm mb-4">
               Pure, natural, and sustainable wellness products
             </p>
+            <p className="text-white/60 text-xs mb-2">
+              Spr naturals brand under india true global exim
+            </p>
             <p className="text-white/60 text-xs">
               &copy; 2024 SPR Naturals. All rights reserved.
             </p>

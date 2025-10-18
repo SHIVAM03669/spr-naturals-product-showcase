@@ -741,6 +741,7 @@ export default function HomePage() {
           </div>
           
           <div className="border-t border-white/20 pt-8 text-center text-sm text-white/80">
+            <p className="mb-2">Spr naturals brand under india true global exim</p>
             <p>&copy; {new Date().getFullYear()} SPR Naturals. All rights reserved.</p>
           </div>
         </div>
