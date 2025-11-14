@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
           alt: product.name,
         },
       ],
-      type: "product",
+      type: "website",
     },
     twitter: {
       card: "summary_large_image",
