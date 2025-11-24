@@ -37,7 +37,7 @@ export default function Home() {
     alternateName: "India True Global Exims",
     url: baseUrl,
     logo: `${baseUrl}/logo2.0.png`,
-    description: "Merchant exporter of premium eco-friendly tableware and packaging products from Nagpur, India. Specializing in areca leaf plates, sugarcane bagasse plates, paper cups, and biodegradable packaging solutions.",
+    description: "Indian exporter of premium eco-friendly tableware and packaging products from Nagpur, India. Specializing in areca leaf plates, sugarcane bagasse plates, paper cups, and biodegradable packaging solutions.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Nagpur",

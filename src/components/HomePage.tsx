@@ -384,7 +384,7 @@ export default function HomePage() {
               Welcome to SPR Naturals
             </ScrollFloat>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              We are a merchant exporter from Nagpur, India, supplying sustainable food‑service and packaging
+              We are a Indian Exporter from Nagpur, India, supplying sustainable food‑service and packaging
               products worldwide. Our focus is eco‑friendly alternatives that reduce plastic waste while delivering
               reliable performance for restaurants, caterers, airlines and retailers.
             </p>
@@ -694,7 +694,7 @@ export default function HomePage() {
                 <Image src="/logo2.0.png" alt="SPR Naturals" width={32} height={32} className="rounded" />
                 <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>SPR Naturals</span>
               </div>
-              <p className="text-white/80 text-sm">Merchant exporter of premium natural and eco-friendly products. Global shipping from Nagpur, India.</p>
+              <p className="text-white/80 text-sm">Indian Exporter of premium natural and eco-friendly products. Global shipping from Nagpur, India.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
