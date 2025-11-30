@@ -21,7 +21,7 @@ export default function HomePage() {
   const [mobileVideoLoaded, setMobileVideoLoaded] = useState(false);
   const [desktopVideoLoaded, setDesktopVideoLoaded] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(true);
-  const [isVideoMuted, setIsVideoMuted] = useState(true);
+  const [isVideoMuted, setIsVideoMuted] = useState(false);
   const [formData, setFormData] = useState({
     company_name: '',
     user_name: '',
@@ -57,16 +57,22 @@ export default function HomePage() {
     });
   };
 
-  // Handle autoplay restrictions - start videos muted by default
+  // Handle autoplay - start videos with sound enabled by default
   useEffect(() => {
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
-      // Start videos muted to ensure they play
-      video.muted = true;
-      setIsVideoMuted(true);
+      // Start videos unmuted (sound enabled by default)
+      video.muted = false;
+      setIsVideoMuted(false);
       video.play().catch(() => {
-        // If play fails, set up user interaction handlers
+        // If autoplay with sound fails (browser restriction), fall back to muted
+        video.muted = true;
+        setIsVideoMuted(true);
+        video.play().catch(() => {});
+        // Set up user interaction handlers to unmute
         const playOnInteraction = () => {
+          video.muted = false;
+          setIsVideoMuted(false);
           video.play().catch(() => {});
           document.removeEventListener('click', playOnInteraction);
           document.removeEventListener('touchstart', playOnInteraction);
@@ -274,7 +280,7 @@ export default function HomePage() {
             playsInline
             preload="auto"
             webkit-playsinline="true"
-            muted={true}
+            muted={isVideoMuted}
             className={`w-full h-full object-cover sm:hidden transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => {
@@ -297,7 +303,7 @@ export default function HomePage() {
             loop
             playsInline
             preload="auto"
-            muted={true}
+            muted={isVideoMuted}
             className={`w-full h-full object-cover hidden sm:block transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ zIndex: -1 }}
             onLoadedData={() => {
@@ -342,20 +348,6 @@ export default function HomePage() {
           <span className="sr-only">{isVideoMuted ? 'Unmute video' : 'Mute video'}</span>
         </div>
 
-        {/* Sound Enable Prompt - appears when muted */}
-        {isVideoMuted && (
-          <div className="absolute bottom-20 left-4 bg-nature-green/90 backdrop-blur-sm rounded-lg p-4 text-white cursor-pointer hover:bg-nature-green transition-all duration-300 z-20 max-w-xs" onClick={toggleVideoMute}>
-            <div className="flex items-center gap-3">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-              </svg>
-              <div>
-                <div className="font-semibold text-sm">Enable Sound</div>
-                <div className="text-xs opacity-90">Click to hear the video with sound</div>
-              </div>
-            </div>
-          </div>
-        )}
         
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">

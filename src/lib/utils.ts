@@ -32,6 +32,7 @@ export const catalogCategories: CatalogCategory[] = [
   { id: 'eco-friendly-straw', name: 'Eco-Friendly Straw', blurb: 'Sustainable straws made from various eco-friendly materials.', image: '/straw.jpeg' },
   { id: 'eco-friendly-cutlery', name: 'Eco-Friendly Cutlery', blurb: 'Wooden spoons, forks, and knives.', image: '/cutlery.jpeg' },
   { id: 'clamshell', name: 'Clamshell', blurb: 'Eco-friendly clamshell containers for takeout and food service.', image: '/clamshell.png' },
+  { id: 'superfoods', name: 'Superfoods', blurb: 'Organic superfoods and natural wellness products with high nutritional value.', image: '/superfoods.png' },
 ]
 
 export const catalogProducts: CatalogProduct[] = [
@@ -333,6 +334,48 @@ export const catalogProducts: CatalogProduct[] = [
     categoryName: 'Clamshell',
     description: 'Eco-friendly clamshell containers for large takeout meals and family portions.',
     image: '/cl.png',
+  },
+  
+  // Superfoods - Moringa Products
+  {
+    id: 'moringa-powder',
+    name: 'Moringa Powder',
+    categoryId: 'superfoods',
+    categoryName: 'Superfoods',
+    description: 'Organic Moringa (Drumstick tree, Moringa Oleifera) leaf powder - the most popular form of this nutrient-rich superfood. Contains 7× more Vitamin C than oranges, 4× more calcium than milk, and high protein. Made from shade-dried leaves to preserve nutrients. Supports immunity, weight loss, skin & hair health, and digestion.',
+    image: '/moringa-powder.png',
+  },
+  {
+    id: 'moringa-leaves',
+    name: 'Moringa Leaves',
+    categoryId: 'superfoods',
+    categoryName: 'Superfoods',
+    description: 'Fresh organic Moringa leaves - also known as Drumstick tree leaves. Rich in vitamins, minerals, and antioxidants. Can be cooked as sabzi, added to soups, or eaten fresh like spinach. Known as the "Miracle tree" for its exceptional nutritional benefits.',
+    image: '/moringa-leaves.png',
+  },
+  {
+    id: 'moringa-seeds',
+    name: 'Moringa Seeds',
+    categoryId: 'superfoods',
+    categoryName: 'Superfoods',
+    description: 'Organic Moringa seeds - versatile and nutrient-dense. Can be eaten roasted or used to make Moringa oil. High in protein and essential nutrients. Supports overall wellness and can be incorporated into various recipes.',
+    image: '/moringa-seeds.png',
+  },
+  {
+    id: 'moringa-pods-drumsticks',
+    name: 'Moringa Pods (Drumsticks)',
+    categoryId: 'superfoods',
+    categoryName: 'Superfoods',
+    description: 'Fresh Moringa pods, commonly known as Drumsticks - a staple in Indian cuisine. Used in sambar, curry, and soups. Rich in fiber, vitamins, and minerals. A nutritious addition to traditional Indian dishes.',
+    image: '/moringa-drumsticks.png',
+  },
+  {
+    id: 'moringa-oil',
+    name: 'Moringa Oil',
+    categoryId: 'superfoods',
+    categoryName: 'Superfoods',
+    description: 'Pure Moringa seed oil - extracted from organic Moringa seeds. Rich in antioxidants and beneficial for skin and hair care. Can also be used for cooking. Known for its moisturizing and nourishing properties.',
+    image: '/moringa-oil.png',
   },
 ]
 

@@ -46,7 +46,7 @@ const socials = [
 
 export default function FloatingSocialIcons() {
   return (
-    <div className="fixed bottom-44 right-6 z-50 flex flex-col items-center gap-3">
+    <div className="fixed bottom-4 right-6 z-50 flex flex-col items-center gap-3">
       {socials.map((social) => (
         <div key={social.name} className="relative h-12 w-12 overflow-hidden rounded-full shadow-lg shadow-black/15">
           <Link

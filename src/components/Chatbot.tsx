@@ -114,7 +114,7 @@ export default function Chatbot({ className }: ChatbotProps) {
   };
 
   return (
-    <div className={cn("fixed bottom-24 right-6 z-50", className)}>
+    <div className={cn("fixed bottom-20 left-4 z-50", className)}>
       {/* Chat Widget */}
       {!isOpen && (
         <div className="relative">
